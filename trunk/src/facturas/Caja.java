@@ -1,21 +1,24 @@
 package facturas;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-abstract public class Caja {
+public abstract class Caja {
 	
 	private int codigo;
 	private double precioTotal;
 	private final double IVA=0.16;
-	//Usuario miUsuario=new Usuario();
+	private Usuario miUsuario;
 	private Date fecha;
 	
 	
 	//Contructor 
-	public Caja(int c, double pt, Date f){
-		codigo=c;
-		precioTotal=pt;
-		fecha=f;
+	public Caja(int cod, double preTot, Date fech, Usuario miUsu){
+		this.miUsuario=miUsu;
+		codigo=cod;
+		precioTotal=preTot;
+		fecha=fech;
 	}
 	
 	//Contructor vacio
@@ -27,24 +30,24 @@ abstract public class Caja {
 		return codigo;
 	}
 	
-	public void setCodigo(int codigo) {
-		this.codigo = codigo;
+	public void setCodigo(int cod) {
+		this.codigo = cod;
 	}
 	
 	public double getPrecioTotal() {
 		return precioTotal;
 	}
 	
-	public void setPrecioTotal(int precioTotal) {
-		this.precioTotal = precioTotal;
+	public void setPrecioTotal(int preTot) {
+		this.precioTotal = preTot;
 	}
 	
 	public Date getFecha() {
 		return fecha;
 	}
 	
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
+	public void setFecha(Date fech) {
+		this.fecha = fech;
 	}
 	
 	public double getIVA() {
@@ -52,8 +55,8 @@ abstract public class Caja {
 	}
 	
 	//Consulta en un mes concreto.
-	abstract public void consultaMes(String mes);
+	abstract public List consultar(int mes);
 	
 	//Consulta entre dos fechas.
-	abstract public void consultaFechas();
+	abstract public void consultaFechas(String fecha1, String fecha2);
 }
