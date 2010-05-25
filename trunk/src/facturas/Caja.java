@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import usuario.Usuario;
+
 public abstract class Caja {
 	
 	private int codigo;

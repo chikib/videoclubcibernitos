@@ -1,6 +1,7 @@
 package usuario;
 
 import varios.InputStreamVideoclub;
+import varios.VideoException;
 import varios.Videoclub;
 
 
@@ -289,7 +290,7 @@ public class Usuario {
 			
 	}
 	
-	public int buscaUscod(int codUs) 
+	public static int buscaUscod(int codUs) 
 	{
 		// se introduce el codigo de usuario que se desea encontrar 
 		//y si lo encu8entra, devuelve el objeto usuario 
@@ -321,5 +322,34 @@ public class Usuario {
 			
 		}
 	}*/
+	
+	public static Usuario identificarUsuario(){
+		InputStreamVideoclub.pedirCadena("Introduzca el número de socio del cliente o 0 para volver al menú anterior: ");
+		String cadena = InputStreamVideoclub.cadena;
+		int numeroSocio;
+		try{
+			numeroSocio = Integer.parseInt(cadena);
+			switch(numeroSocio){
+				case 0: Videoclub.mostrarMenuPrincipal();break;
+				default: {
+					int pos = Usuario.buscaUscod(numeroSocio);
+					if(pos>=0){
+						return Videoclub.listaUsuarios.get(pos);
+					}else{
+						throw new VideoException("*** El número de socio indicado no existe ***\n");
+					}
+						
+				}
+			}
+		}
+		catch(NumberFormatException e){
+			System.out.println("El dato introducido no es válido");
+			identificarUsuario();
+		}
+		catch(VideoException e){
+			System.out.println(e.getMessage());
+		}
+		return null;
+	}
 	
 }

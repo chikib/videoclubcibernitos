@@ -2,52 +2,60 @@ package articulos;
 
 public class Categoria {
 	private int codigo;
-	private String nombre;
-	private String apellidos;
-	private String dni;
-	private String direccion;
-	private String telefono;
-	private boolean bloqueado;
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-	public String getNombre() {
-		return nombre;
-	}
+	private String tematica;
+	private int recargoBase;
+	private int recargoNovedad;
+	private int tiempoAlquiler;
+	private int tiempoAlquilerNovedad;
+
 	public void setCodigo(int codigo) {
 		this.codigo = codigo;
 	}
+
 	public int getCodigo() {
 		return codigo;
 	}
-	public void setApellidos(String apellidos) {
-		this.apellidos = apellidos;
+
+	public void setTematica(String tematica) {
+		this.tematica = tematica;
 	}
-	public String getApellidos() {
-		return apellidos;
+
+	public String getTematica() {
+		return tematica;
 	}
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
+
+	public void setRecargoBase(int recargoBase) {
+		this.recargoBase = recargoBase;
 	}
-	public String getTelefono() {
-		return telefono;
+
+	public int getRecargoBase() {
+		return recargoBase;
 	}
-	public void setDni(String dni) {
-		this.dni = dni;
+
+	public void setRecargoNovedad(int recargoNovedad) {
+		this.recargoNovedad = recargoNovedad;
 	}
-	public String getDni() {
-		return dni;
+
+	public int getRecargoNovedad() {
+		return recargoNovedad;
 	}
-	public void setDireccion(String direccion) {
-		this.direccion = direccion;
+
+	public void setTiempoAlquiler(int tiempoAlquiler) {
+		this.tiempoAlquiler = tiempoAlquiler;
 	}
-	public String getDireccion() {
-		return direccion;
+
+	public int getTiempoAlquiler() {
+		return tiempoAlquiler;
 	}
-	public void setBloqueado(boolean bloqueado) {
-		this.bloqueado = bloqueado;
+
+	public void setTiempoAlquilerNovedad(int tiempoAlquilerNovedad) {
+		this.tiempoAlquilerNovedad = tiempoAlquilerNovedad;
 	}
-	public boolean isBloqueado() {
-		return bloqueado;
+
+	public int getTiempoAlquilerNovedad() {
+		return tiempoAlquilerNovedad;
 	}
+	
+
+	
 }

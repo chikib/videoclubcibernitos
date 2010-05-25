@@ -5,6 +5,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import usuario.Usuario;
+
 public class Factura extends Caja{
 	//Me creo un ArrayList de tipo albaran
 	public static List<Factura> listaFacturas = new ArrayList();

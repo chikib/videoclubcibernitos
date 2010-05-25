@@ -1,5 +1,11 @@
 package articulos;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import varios.InputStreamVideoclub;
+import varios.VideoException;
+import varios.Videoclub;
 public class Articulo {
 	private int codigo;
 	private long codigoBarras;
@@ -15,6 +21,8 @@ public class Articulo {
 	private boolean novedad;
 	private String localizacion;
 	private boolean alquilable;
+	
+	public static List<Articulo> listaPeliculas = new ArrayList();
 	
 	public Articulo(int codigo,long codigoBarras,String titulo,String descripcion,Categoria categoria,Soporte soporte,Proveedor proveedor,
 			int precioAlquiler,boolean alquilado,Date fechaCompra,int precioCompra,boolean novedad,String localizacion,boolean alquilable){
@@ -121,4 +129,87 @@ public class Articulo {
 		return alquilable;
 	}
 	
+	public static int buscaArticuloDisponible(int codigo){
+		int i = 0;
+		for (Articulo articulo : listaPeliculas)
+		{
+			if (articulo.getCodigoBarras() == codigo && articulo.isAlquilado() == false)
+			{
+				//Videoclub.listaUsuarios.indexOf(us);
+				return i; // devuelve la posicion en que se encuentra el cliente dentro de la lista
+			}
+			i++;
+		}
+	
+		return -1;
+	}
+	
+	public static int buscaArticulo(int codigo){
+		int i = 0;
+		for (Articulo articulo : listaPeliculas)
+		{
+			if (articulo.getCodigoBarras() == codigo)
+			{
+				//Videoclub.listaUsuarios.indexOf(us);
+				return i; // devuelve la posicion en que se encuentra el cliente dentro de la lista
+			}
+			i++;
+		}
+	
+		return -1;
+	}
+	
+	public static int identificarPeliculaDisponible(){
+		InputStreamVideoclub.pedirCadena("Introduzca el código de barras de la película o 0 para volver al menú anterior: ");
+		String cadena = InputStreamVideoclub.cadena;
+		int codigo;
+		try{
+			codigo = Integer.parseInt(cadena);
+			switch(codigo){
+				case 0: Videoclub.mostrarMenuPrincipal();break;
+				default: {
+						int pos = Articulo.buscaArticuloDisponible(codigo);
+						if(pos>=0){
+							return pos;
+						}else{
+							throw new VideoException("*** El número de película indicada no existe ***\n");
+						}
+				}
+			}
+		}
+		catch(NumberFormatException e){
+			System.out.println("El dato introducido no es válido");
+			identificarPeliculaDisponible();
+		}catch(VideoException e){
+			System.out.println(e.getMessage());
+		}
+		return -1;
+	}
+	
+	public static int identificarPelicula(){
+		InputStreamVideoclub.pedirCadena("Introduzca el código de barras de la película o 0 para volver al menú anterior: ");
+		String cadena = InputStreamVideoclub.cadena;
+		int codigo;
+		try{
+			codigo = Integer.parseInt(cadena);
+			switch(codigo){
+				case 0: Videoclub.mostrarMenuPrincipal();break;
+				default: {
+						int pos = Articulo.buscaArticulo(codigo);
+						if(pos>=0){
+							return pos;
+						}else{
+							throw new VideoException("*** El número de película indicada no existe ***\n");
+						}
+				}
+			}
+		}
+		catch(NumberFormatException e){
+			System.out.println("El dato introducido no es válido");
+			identificarPelicula();
+		}catch(VideoException e){
+			System.out.println(e.getMessage());
+		}
+		return -1;
+	}
 }
