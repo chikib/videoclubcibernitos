@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import varios.InputStreamVideoclub;
+
 public class Videoclub {
 	
 	public static List<Articulo> listaPeliculas = new ArrayList();
@@ -27,8 +29,8 @@ public class Videoclub {
 			System.out.println("(5) Consultas");
 			System.out.println("(6) Facturación");
 			System.out.println("(7) Salir");
-			InputStream.pedirCadena();
-			cadena = InputStream.cadena;
+			InputStreamVideoclub.pedirCadena();
+			cadena = InputStreamVideoclub.cadena;
 			try{
 				switch(Integer.parseInt(cadena)){
 				case 1: ;break;
@@ -56,8 +58,8 @@ public class Videoclub {
 			System.out.println("(3) Activar usuario");
 			System.out.println("(4) Desactivar usuario");
 			System.out.println("(5) Volver");
-			InputStream.pedirCadena();
-			cadena = InputStream.cadena;
+			InputStreamVideoclub.pedirCadena();
+			cadena = InputStreamVideoclub.cadena;
 			try{
 				switch(Integer.parseInt(cadena)){
 				case 1: ;break;

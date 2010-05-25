@@ -1,17 +1,19 @@
 import java.util.Date;
 
+import usuario.Usuario;
+
 public class ArticuloAlquilado {
 	private int codigo;
 	private Articulo articulo;
 	private Date fechaAlquiler;
 	private Date fechaDevolucion;
-	private Cliente cliente;
+	private Usuario cliente;
 	private String observaciones;
 	private int recargo;
 	private int precio;
 	private int tiempo;
 	
-	public ArticuloAlquilado(int codigo,Articulo articulo,Date fechaAlquiler,Date fechaDevolucion,Cliente cliente,String observaciones,
+	public ArticuloAlquilado(int codigo,Articulo articulo,Date fechaAlquiler,Date fechaDevolucion,Usuario cliente,String observaciones,
 			int recargo,int precio,int tiempo){
 		this.codigo = codigo;
 		this.articulo = articulo;
@@ -48,10 +50,10 @@ public class ArticuloAlquilado {
 	public Date getFechaDevolucion() {
 		return fechaDevolucion;
 	}
-	public void setCliente(Cliente cliente) {
+	public void setCliente(Usuario cliente) {
 		this.cliente = cliente;
 	}
-	public Cliente getCliente() {
+	public Usuario getCliente() {
 		return cliente;
 	}
 	public void setObservaciones(String observaciones) {
