@@ -146,14 +146,14 @@ public class Usuario {
 			System.out.println("Elija una opción válida");
 		}
 		
-		
-		Videoclub.listaUsuarios.add( oUsu);
+		//añado a la lista el objeto creado con los datos del nuevo usuario
+		Videoclub.listaUsuarios.add(oUsu); 
 		
 	}
 	
-	public String  usPantalla (int indicelista)
+	public String  usPantalla (int indiceLista)
 	{
-		/* Hya que introducir los parametros dni,nombre y apellidos del usuario a mostrar
+		/* Hya que introducir el indice de la lista donde se encuentra el usuario buscado
 		 * Este método devuelve una cadena formateada para ser impresa por pantalla*/
 		
 		/*System.out.print ("Datos del Usuario");
@@ -166,15 +166,19 @@ public class Usuario {
 		System.out.print ("Usuario activo : " + this.activo);
 		System.out.print ("Bloqueado : " + this.bloqueado);*/
 		
+		Videoclub.listaUsuarios.get(indiceLista);
+		Usuario us = new Usuario();
+		
+		
 		return ("Datos del Usuario" + "/n" +
-		"Código         : " + this.codigo + "/n" +
-		"Nombre         : " + this.nombre + "/n" +
-		"Apellidos      : " + this.apellidos + "/n" +
-		"Dni            : " + this.dni + "/n" +
-		"Dirección      : " + this.direccion + "/n" +
-		"Telefono       : " + this.telefono + "/n" +
-		"Usuario activo : " + this.activo + "             " +
-		"Bloqueado      : " + this.bloqueado);
+		"Código         : " + us.codigo+ "/n" +
+		"Nombre         : " + us.nombre + "/n" +
+		"Apellidos      : " + us.apellidos + "/n" +
+		"Dni            : " + us.dni + "/n" +
+		"Dirección      : " + us.direccion + "/n" +
+		"Telefono       : " + us.telefono + "/n" +
+		"Usuario activo : " + us.activo + "             " +
+		"Bloqueado      : " + us.bloqueado);
 				
 	}	
 	
@@ -183,20 +187,24 @@ public class Usuario {
 		//metodo no definido esperando a la creacion de bbdd para hacer la busqueda mediante select 
 	}
 	
-	public void modUs ( String vnom ,String vapell, String vdni)
+	//public void modUs ( String vnom ,String vapell, String vdni)
+	public void modUs ( int codUs)
 	{
 		boolean fin = false;
 		String cadena = "";
-	//	private int indiceLista;
+		int indiceLista;
 		
-		//indicelista = buscaUs(vdni,vapell,vnom); /* metodo busqueda en la coleccion */
-		//usPantalla(indiceLista); //mostramos los datos del usuario por pantalla
+		//indiceLista = buscaUs(vdni,vapell,vnom); /* metodo busqueda en la coleccion */
+		indiceLista = buscaUscod(codUs); 
+		/* metodo busqueda en la coleccion el codigo de 
+		usuario y devuelve el indice de la lista donde se encuentra */
+		usPantalla(indiceLista); //mostramos los datos del usuario por pantalla
 		
 		
 		/*si se ha encontrado el usuario procedemos a 
 		 *capturar los datos que queremos modificar */
 		do
-		{
+		{	System.out.println ("-----------------------------------");
 			System.out.println ("(1) Introducir Código : ");
 			System.out.println ("(2) Introducir Nombre : ");
 			System.out.println ("(3) Introducir Apellidos : ");
@@ -206,6 +214,7 @@ public class Usuario {
 			System.out.println ("(7) Introducir Usuario activo : ");
 			System.out.println ("(8) Introducir Bloqueado : ");
 			System.out.println ("(9) Salir : ");
+			System.out.println ("-----------------------------------");
 			
 			InputStreamVideoclub.pedirCadena();
 			cadena = InputStreamVideoclub.cadena;
@@ -274,21 +283,32 @@ public class Usuario {
 			}
 						
 		}while(!fin ); 
+		
+		Usuario us = new Usuario();
+		Videoclub.listaUsuarios.set( indiceLista , us);
 			
 	}
 	
-	/*public int buscaUscod(int cod) 
+	public int buscaUscod(int codUs) 
 	{
 		// se introduce el codigo de usuario que se desea encontrar 
 		//y si lo encu8entra, devuelve el objeto usuario 
 		
 		//creamos el iterador para recorrer  la lista de usuarios
 		
+		int i = 0;
 		for (Usuario us : Videoclub.listaUsuarios)
 		{
-			
+			if (us.getCodigo() == codUs)
+			{
+				//Videoclub.listaUsuarios.indexOf(us);
+				return i; // devuelve la posicion en que se encuentra el cliente dentro de la lista
+			}
+			i++;
 		}
-	}*/
+	
+		return -1;
+	}
 	/*public int buscaUs(String dni, String nombre, String apellidos) 
 	{
 		// se introduce el dni , nombre y apellidos  de usuario que se desea encontrar 
