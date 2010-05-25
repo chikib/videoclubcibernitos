@@ -2,6 +2,8 @@ package varios;
 import java.util.ArrayList;
 import java.util.List;
 
+import usuario.Usuario;
+
 import articulos.Articulo;
 import articulos.ArticuloAlquilado;
 
@@ -10,9 +12,10 @@ public class Videoclub {
 	
 	public static List<Articulo> listaPeliculas = new ArrayList();
 	public static List<ArticuloAlquilado> listaPeliculasAlquiladas = new ArrayList();
+	public static List<Usuario> listaUsuarios = new ArrayList();
 	/*List<Soporte> listaSoportes = new ArrayList();
 	List<Categoria> listaCategorias = new ArrayList();
-	List<Usuario> listaUsuarios = new ArrayList();
+	
 	*/
 	
 	public static void main (String[] args){
