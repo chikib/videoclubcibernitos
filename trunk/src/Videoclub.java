@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import articulos.Articulo;
+import articulos.ArticuloAlquilado;
+
 import varios.InputStreamVideoclub;
 
 public class Videoclub {
@@ -33,8 +36,8 @@ public class Videoclub {
 			cadena = InputStreamVideoclub.cadena;
 			try{
 				switch(Integer.parseInt(cadena)){
-				case 1: ;break;
-				case 2: ;break;
+				case 1: alquilar();break;
+				case 2: devolver();break;
 				case 3: mostrarMenuUsuarios();break;
 				case 4: ;break;
 				case 5: ;break;
@@ -73,5 +76,34 @@ public class Videoclub {
 				System.out.println("Elija una opción válida");
 			}
 		}while(!fin);
+	}
+	
+	public static void alquilar(){
+		//Identifico al usuario
+		identificarUsuario();
+		//Identifico la película
+		identificarPelicula();
+	}
+	
+	public static void identificarUsuario(){
+		InputStreamVideoclub.pedirCadena("Introduzca el número de socio del cliente: ");
+		String cadena = InputStreamVideoclub.cadena;
+		int numeroSocio;
+		try{
+			numeroSocio = Integer.parseInt(cadena);
+			
+		}
+		catch(NumberFormatException e){
+			System.out.println("El dato introducido no es válido");
+			identificarUsuario();
+		}
+	}
+	
+	public static void identificarPelicula(){
+		
+	}
+	
+	public static void devolver(){
+		
 	}
 }
