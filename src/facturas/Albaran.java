@@ -7,13 +7,15 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 
+import usuario.Usuario;
+
 public class Albaran extends Caja {
 	private boolean cancelado;
 	
 	//Me creo un ArrayList de tipo factura
 	public static List<Albaran> listaAlbaranes = new ArrayList();
 	
-	public Albaran(int cod, double preTot, Date fech, boolean cancel, usuario miUsu){
+	public Albaran(int cod, double preTot, Date fech, boolean cancel, Usuario miUsu){
 		super (cod, preTot, fech, miUsu);
 		setCancelado(cancel);
 	}
