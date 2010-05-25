@@ -1,8 +1,9 @@
+package varios;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class InputStream {
+public class InputStreamVideoclub {
 
 	public static String cadena;
 	public static void pedirCadena(){
