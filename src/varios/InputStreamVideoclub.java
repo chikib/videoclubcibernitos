@@ -18,4 +18,17 @@ public class InputStreamVideoclub {
 			System.out.println ("Error");
 		}
 	}
+	
+	public static void pedirCadena(String mensaje){
+		try {
+			// Obtención del objeto Reader
+			InputStreamReader conv = new InputStreamReader (System.in);
+			// Obtención del BufferedReader
+			BufferedReader entrada = new BufferedReader (conv);
+			System.out.println(mensaje);
+			cadena = entrada.readLine();
+		}catch (IOException e)	{
+			System.out.println ("Error");
+		}
+	}
 }
