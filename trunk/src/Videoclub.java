@@ -1,0 +1,75 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class Videoclub {
+	
+	public static List<Articulo> listaPeliculas = new ArrayList();
+	public static List<ArticuloAlquilado> listaPeliculasAlquiladas = new ArrayList();
+	/*List<Soporte> listaSoportes = new ArrayList();
+	List<Categoria> listaCategorias = new ArrayList();
+	List<Usuario> listaUsuarios = new ArrayList();
+	*/
+	
+	public static void main (String[] args){
+		mostrarMenuPrincipal();
+	}
+	
+	//Método estático que muestra el menú principal
+	public static void mostrarMenuPrincipal(){
+		boolean fin = false;
+		String cadena = "";
+		
+		do{
+			System.out.println("(1) Alquilar");
+			System.out.println("(2) Devolver");
+			System.out.println("(3) Gestión de usuarios");
+			System.out.println("(4) Gestión de películas");
+			System.out.println("(5) Consultas");
+			System.out.println("(6) Facturación");
+			System.out.println("(7) Salir");
+			InputStream.pedirCadena();
+			cadena = InputStream.cadena;
+			try{
+				switch(Integer.parseInt(cadena)){
+				case 1: ;break;
+				case 2: ;break;
+				case 3: mostrarMenuUsuarios();break;
+				case 4: ;break;
+				case 5: ;break;
+				case 6: ;break;
+				case 7: fin = true; break;
+				default: System.out.println("Elija una opción válida");
+				}
+			}catch(NumberFormatException e){
+				System.out.println("Elija una opción válida");
+			}
+		}while(!fin);
+	}
+	
+	public static void mostrarMenuUsuarios(){
+		boolean fin = false;
+		String cadena = "";
+		
+		do{
+			System.out.println("(1) Alta de usuario");
+			System.out.println("(2) Modificación datos");
+			System.out.println("(3) Activar usuario");
+			System.out.println("(4) Desactivar usuario");
+			System.out.println("(5) Volver");
+			InputStream.pedirCadena();
+			cadena = InputStream.cadena;
+			try{
+				switch(Integer.parseInt(cadena)){
+				case 1: ;break;
+				case 2: ;break;
+				case 3: ;break;
+				case 4: ;break;
+				case 5: mostrarMenuPrincipal();fin = true; break;
+				default: System.out.println("Elija una opción válida");
+				}
+			}catch(NumberFormatException e){
+				System.out.println("Elija una opción válida");
+			}
+		}while(!fin);
+	}
+}
