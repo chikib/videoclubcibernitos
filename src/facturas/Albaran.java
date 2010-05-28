@@ -1,11 +1,7 @@
 package facturas;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Iterator;
-import java.util.List;
+import java.text.*;
+import java.util.*;
 
 import usuario.Usuario;
 
@@ -14,9 +10,10 @@ public class Albaran extends Caja {
 	
 	//Me creo un ArrayList de tipo factura
 	public static List<Albaran> listaAlbaranes = new ArrayList();
+	List miLista = new ArrayList();
 	
-	public Albaran(int cod, double preTot, Date fech, boolean cancel, Usuario miUsu){
-		super (cod, preTot, fech, miUsu);
+	public Albaran(int cod, double preTot, Date fech, boolean cancel, Usuario cliente){
+		super (cod, preTot, fech, cliente);
 		setCancelado(cancel);
 	}
 	
@@ -28,13 +25,6 @@ public class Albaran extends Caja {
 		this.cancelado = cancel;
 	}
 
-	//Consultar mes 
-	public int consultaMes(){
-		GregorianCalendar fecha1=new GregorianCalendar();
-		fecha1.setTime(getFecha());
-		int d1=fecha1.get(Calendar.MONTH)+1;
-		return d1;
-	}
 	
 	//Consulta los albaranes en un mes concreto
 	public List consultar(int mes){
@@ -47,8 +37,20 @@ public class Albaran extends Caja {
 		return miLista;
 	}
 
+	
 	//Consulta los albaranes entre dos fechas
-	public void consultaFechas(String fecha1, String fecha2){}
+	public List consultaFechas(String fecha1, String fecha2){
+		long f1=convertirFecha(fecha1);
+		long f2=convertirFecha(fecha2);
+		for (Albaran o : listaAlbaranes){
+			long ffactura=o.getFecha().getTime();
+			if (ffactura>=f1 && ffactura<=f2)
+			{
+				miLista.add(o);
+			}
+		}
+		return miLista;
+	}
 
 
 
