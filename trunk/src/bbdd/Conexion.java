@@ -29,7 +29,7 @@ public class Conexion {
 		try{
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			this.setCon(DriverManager.getConnection(
-			"jdbc:mysql://localhost/videoclub","root","admin"));
+			"jdbc:mysql://clapinsa.com/clama23_video_grupo01","grupo01","123456"));
 		}catch(ClassNotFoundException e){
 			e.getMessage();
 		}catch(IllegalAccessException e){
