@@ -3,6 +3,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import bbdd.Articulos;
+
 import varios.InputStreamVideoclub;
 import varios.VideoException;
 import varios.Videoclub;
@@ -23,7 +25,9 @@ public class Articulo {
 	private boolean alquilable;
 	
 	public static List<Articulo> listaPeliculas = new ArrayList();
-	
+	public Articulo(){
+		
+	}
 	public Articulo(int codigo,long codigoBarras,String titulo,String descripcion,Categoria categoria,Soporte soporte,Proveedor proveedor,
 			int precioAlquiler,boolean alquilado,Date fechaCompra,int precioCompra,boolean novedad,String localizacion,boolean alquilable){
 		this.codigo = codigo;
@@ -144,9 +148,11 @@ public class Articulo {
 		return -1;
 	}
 	
-	public static int buscaArticulo(int codigo){
+	public static Articulo buscaArticulo(int codigo){
 		int i = 0;
-		for (Articulo articulo : listaPeliculas)
+		Articulos artbbdd = new Articulos();
+		Articulo art = artbbdd.buscarArticulo(codigo);
+		/*for (Articulo articulo : listaPeliculas)
 		{
 			if (articulo.getCodigoBarras() == codigo)
 			{
@@ -154,9 +160,9 @@ public class Articulo {
 				return i; // devuelve la posicion en que se encuentra el cliente dentro de la lista
 			}
 			i++;
-		}
-	
-		return -1;
+		}*/
+		
+		return art;
 	}
 	
 	public static int identificarPeliculaDisponible(){
@@ -186,18 +192,19 @@ public class Articulo {
 		return -1;
 	}
 	
-	public static int identificarPelicula(){
+	public static Articulo identificarPelicula(){
 		InputStreamVideoclub.pedirCadena("Introduzca el código de barras de la película o 0 para volver al menú anterior: ");
 		String cadena = InputStreamVideoclub.cadena;
+		Articulo art = null;
 		int codigo;
 		try{
 			codigo = Integer.parseInt(cadena);
 			switch(codigo){
 				case 0: Videoclub.mostrarMenuPrincipal();break;
 				default: {
-						int pos = Articulo.buscaArticulo(codigo);
-						if(pos>=0){
-							return pos;
+						art = buscaArticulo(codigo);
+						if(art!=null){
+							return art;
 						}else{
 							throw new VideoException("*** El número de película indicada no existe ***\n");
 						}
@@ -210,6 +217,6 @@ public class Articulo {
 		}catch(VideoException e){
 			System.out.println(e.getMessage());
 		}
-		return -1;
+		return art;
 	}
 }
