@@ -82,11 +82,9 @@ public class Categoria {
 	
 	public boolean existeCategoria (String tema)
 	{
-		boolean versiexisite = false;
+		boolean versiexiste = false;
 		
-	
-	
+		return versiexiste;
 	}
-	} return versiexiste
 
 }
