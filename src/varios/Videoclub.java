@@ -46,7 +46,7 @@ public class Videoclub {
 			try{
 				switch(Integer.parseInt(cadena)){
 				case 1: ArticuloAlquilado.alquilar();break;
-				case 2: ArticuloAlquilado.devolver();break;
+				case 2: ArticuloAlquilado.gestionDevolver();break;
 				case 3: mostrarMenuUsuarios();break;
 				case 4: mostrarMenuPeliculas();break;
 				case 5: ;break;
