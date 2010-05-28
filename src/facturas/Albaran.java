@@ -12,9 +12,13 @@ public class Albaran extends Caja {
 	public static List<Albaran> listaAlbaranes = new ArrayList();
 	List miLista = new ArrayList();
 	
-	public Albaran(int cod, double preTot, Date fech, boolean cancel, Usuario cliente){
+	public Albaran(int cod, double preTot, Date fech, Usuario cliente, boolean cancel){
 		super (cod, preTot, fech, cliente);
 		setCancelado(cancel);
+	}
+	
+	public Albaran(){
+		
 	}
 	
 	public boolean isCancelado() {

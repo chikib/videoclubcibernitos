@@ -14,6 +14,9 @@ public class Factura extends Caja{
 	
 	//Me creo un Iterator para poder recorrer mis colecciones de tipo factura
 	
+	public Factura(){
+		
+	}
 	
 	public Factura(int cod, double pretot, Date fech, Usuario cliente){
 		super (cod,pretot,fech,cliente);

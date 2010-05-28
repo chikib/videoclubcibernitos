@@ -40,10 +40,18 @@ public abstract class Caja {
 		return precioTotal;
 	}
 	
-	public void setPrecioTotal(int preTot) {
+	public void setPrecioTotal(double preTot) {
 		this.precioTotal = preTot;
 	}
 	
+	public Usuario getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Usuario cliente) {
+		this.cliente = cliente;
+	}
+
 	public Date getFecha() {
 		return fecha;
 	}
