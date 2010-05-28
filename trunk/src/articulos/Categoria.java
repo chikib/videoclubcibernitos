@@ -55,7 +55,38 @@ public class Categoria {
 	public int getTiempoAlquilerNovedad() {
 		return tiempoAlquilerNovedad;
 	}
-	
 
+	/* ********************************************************************************************** */
+	/*  realizamos un alta de una categoria si no existe */
 	
+	public void altaCategoria(String tema, int codi, int recarba, int recarno, int tiempoal, int tiempono)
+	{
+		if (tema.length()>0 && existeCategoria(tema)==false)
+		{
+			codigo = codi;
+			tematica = tema;
+			recargoBase = recarba;
+			recargoNovedad = recarno;
+			tiempoAlquiler = tiempoal;
+			tiempoAlquilerNovedad = tiempono;
+		}
+		else
+		{
+			System.out.println("No me ha introducido la categoria nueva o la categoria ya existe");
+		}	
+	}
+	
+	
+	/* *********************************************************************************************** */
+	/* Comprobamos que existe o no la categoria */
+	
+	public boolean existeCategoria (String tema)
+	{
+		boolean versiexisite = false;
+		
+	
+	
+	}
+	} return versiexiste
+
 }
