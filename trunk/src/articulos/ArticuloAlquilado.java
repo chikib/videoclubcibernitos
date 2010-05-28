@@ -3,6 +3,8 @@ package articulos;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import bbdd.Articulos;
 import usuario.Usuario;
 
 public class ArticuloAlquilado {
@@ -17,6 +19,10 @@ public class ArticuloAlquilado {
 	private int tiempo;
 	
 	public static List<ArticuloAlquilado> listaPeliculasAlquiladas = new ArrayList();
+	
+	public ArticuloAlquilado(){
+		
+	}
 	
 	public ArticuloAlquilado(Usuario usuario, Articulo articulo){
 		this.cliente = usuario;
@@ -96,42 +102,49 @@ public class ArticuloAlquilado {
 		Usuario usuario = Usuario.identificarUsuario();
 		if(usuario!=null){
 			//Identifico la película
-			int posArticulo = Articulo.identificarPelicula();
-			if(posArticulo!=-1){
-				Articulo articulo = Articulo.listaPeliculas.get(posArticulo);
-				int recargo = 0;
-				int tiempo = 0;
-				if(articulo.isNovedad()){
-					recargo = articulo.getCategoria().getRecargoNovedad();
-					tiempo = articulo.getCategoria().getTiempoAlquilerNovedad();
-				}else{
-					recargo = articulo.getCategoria().getRecargoBase();
-					tiempo = articulo.getCategoria().getTiempoAlquiler();
-				}
-				listaPeliculasAlquiladas.add(new ArticuloAlquilado(ArticuloAlquilado.generarCodigo(), articulo, new Date(),null , 
-						usuario, "", recargo, articulo.getPrecioAlquiler(), tiempo));
-				articulo.setAlquilado(true);
-				Articulo.listaPeliculas.set(posArticulo, articulo);
-				System.out.println("*** Artículo alquilado ***");
+			Articulo articulo = Articulo.identificarPelicula();
+			//Articulo articulo = Articulo.listaPeliculas.get(posArticulo);
+			int recargo = 0;
+			int tiempo = 0;
+			if(articulo.isNovedad()){
+				recargo = articulo.getCategoria().getRecargoNovedad();
+				tiempo = articulo.getCategoria().getTiempoAlquilerNovedad();
+			}else{
+				recargo = articulo.getCategoria().getRecargoBase();
+				tiempo = articulo.getCategoria().getTiempoAlquiler();
 			}
+			//listaPeliculasAlquiladas.add(new ArticuloAlquilado(ArticuloAlquilado.generarCodigo(), articulo, new Date(),null , 
+			//		usuario, "", recargo, articulo.getPrecioAlquiler(), tiempo));
+			articulo.setAlquilado(true);
+			//Articulo.listaPeliculas.set(posArticulo, articulo);
+			
+			System.out.println("*** Artículo alquilado ***");
+			
 		}
 	}
 	
 	
-	public static void devolver(){
+	public static void gestionDevolver(){
 		//Identifico al usuario
 		Usuario usuario = Usuario.identificarUsuario();
 		if(usuario!=null){
 			//Identifico la película
-			int posArticulo = Articulo.identificarPelicula();
-			if(posArticulo!=-1){
-				Articulo articulo = Articulo.listaPeliculas.get(posArticulo);
-				ArticuloAlquilado articuloDev = buscar(usuario, articulo);
-				articulo.setAlquilado(false);
-				articuloDev.setFechaDevolucion(new Date());
-				Articulo.listaPeliculas.set(posArticulo, articulo);
-				System.out.println("*** Artículo devuelto ***");
-			}
+			/*this. = Articulo.identificarPelicula();
+			
+			//Articulo articulo = Articulo.listaPeliculas.get(posArticulo);
+			//ArticuloAlquilado articuloDev = buscar(usuario, articulo);
+			art.setAlquilado(false);
+			articuloDev.setFechaDevolucion(new Date());
+			Articulo.listaPeliculas.set(posArticulo, articulo);
+			System.out.println("*** Artículo devuelto ***");*/
+			Articulo articulo = Articulo.identificarPelicula();
+			articulo.setAlquilado(false);
+			Articulos artBbdd = new Articulos();
+			//artBbdd.guardar(articulo);
+			ArticuloAlquilado articuloDev = new ArticuloAlquilado();
+			articuloDev.setFechaDevolucion(new Date());
+			
+			System.out.println("*** Artículo devuelto ***");
 		}
 	}
 	
