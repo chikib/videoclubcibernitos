@@ -16,10 +16,10 @@ public class Articulo {
 	private Categoria categoria;
 	private Soporte soporte;
 	private Proveedor proveedor;
-	private int precioAlquiler;
+	private double precioAlquiler;
 	private boolean alquilado;
 	private Date fechaCompra;
-	private int precioCompra;
+	private double precioCompra;
 	private boolean novedad;
 	private String localizacion;
 	private boolean alquilable;
@@ -29,7 +29,7 @@ public class Articulo {
 		
 	}
 	public Articulo(int codigo,long codigoBarras,String titulo,String descripcion,Categoria categoria,Soporte soporte,Proveedor proveedor,
-			int precioAlquiler,boolean alquilado,Date fechaCompra,int precioCompra,boolean novedad,String localizacion,boolean alquilable){
+			double precioAlquiler,boolean alquilado,Date fechaCompra,double precioCompra,boolean novedad,String localizacion,boolean alquilable){
 		this.codigo = codigo;
 		this.codigoBarras = codigoBarras;
 		this.titulo = titulo;
@@ -88,10 +88,10 @@ public class Articulo {
 	public Proveedor getProveedor() {
 		return proveedor;
 	}
-	public void setPrecioAlquiler(int precioAlquiler) {
+	public void setPrecioAlquiler(double precioAlquiler) {
 		this.precioAlquiler = precioAlquiler;
 	}
-	public int getPrecioAlquiler() {
+	public double getPrecioAlquiler() {
 		return precioAlquiler;
 	}
 	public void setAlquilado(boolean alquilado) {
@@ -106,10 +106,10 @@ public class Articulo {
 	public Date getFechaCompra() {
 		return fechaCompra;
 	}
-	public void setPrecioCompra(int precioCompra) {
+	public void setPrecioCompra(double precioCompra) {
 		this.precioCompra = precioCompra;
 	}
-	public int getPrecioCompra() {
+	public double getPrecioCompra() {
 		return precioCompra;
 	}
 	public void setNovedad(boolean novedad) {
