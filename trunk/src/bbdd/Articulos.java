@@ -2,8 +2,6 @@ package bbdd;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
-
 import articulos.Articulo;
 import articulos.Categoria;
 import articulos.Proveedor;
@@ -15,7 +13,8 @@ public class Articulos {
 		Articulo art = null;
 		Conexion con = new Conexion();
 		StringBuilder stb = new StringBuilder("SELECT codigo, titulo, codigoBarras,precio,descripcion," +
-				"categoria,soporte,proveedor,alquilado,fechaCompra,precioCompra,novedad,localizacion");
+				"categoria,soporte,proveedor,alquilado,fechaCompra,precioCompra,novedad,localizacion " +
+				"from ARTICULOS WHERE codigo = "+codigo);
 		try{
 			ResultSet res = con.consulta(stb.toString());
 			if(res.next()){
