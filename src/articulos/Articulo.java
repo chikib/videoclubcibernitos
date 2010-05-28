@@ -151,7 +151,7 @@ public class Articulo {
 	public static Articulo buscaArticulo(int codigo){
 		int i = 0;
 		Articulos artbbdd = new Articulos();
-		Articulo art = artbbdd.buscarArticulo(codigo);
+		Articulo art = artbbdd.buscarArticuloCodigoBarras(codigo);
 		/*for (Articulo articulo : listaPeliculas)
 		{
 			if (articulo.getCodigoBarras() == codigo)

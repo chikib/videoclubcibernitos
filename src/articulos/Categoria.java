@@ -8,6 +8,10 @@ public class Categoria {
 	private int tiempoAlquiler;
 	private int tiempoAlquilerNovedad;
 
+	public Categoria(){
+		
+	}
+	
 	public void setCodigo(int codigo) {
 		this.codigo = codigo;
 	}
@@ -85,6 +89,10 @@ public class Categoria {
 		boolean versiexiste = false;
 		
 		return versiexiste;
+	}
+	
+	public Categoria(String cif){
+		
 	}
 
 }

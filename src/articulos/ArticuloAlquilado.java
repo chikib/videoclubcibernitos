@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import bbdd.Articulos;
+import bbdd.Categorias;
 import usuario.Usuario;
 
 public class ArticuloAlquilado {
@@ -100,26 +101,35 @@ public class ArticuloAlquilado {
 	public static void alquilar(){
 		//Identifico al usuario
 		Usuario usuario = Usuario.identificarUsuario();
+		//Identifico la película
 		if(usuario!=null){
-			//Identifico la película
 			Articulo articulo = Articulo.identificarPelicula();
-			//Articulo articulo = Articulo.listaPeliculas.get(posArticulo);
-			int recargo = 0;
-			int tiempo = 0;
-			if(articulo.isNovedad()){
-				recargo = articulo.getCategoria().getRecargoNovedad();
-				tiempo = articulo.getCategoria().getTiempoAlquilerNovedad();
-			}else{
-				recargo = articulo.getCategoria().getRecargoBase();
-				tiempo = articulo.getCategoria().getTiempoAlquiler();
+			if(articulo!=null){
+				//Articulo articulo = Articulo.listaPeliculas.get(posArticulo);
+				int recargo = 0;
+				int tiempo = 0;
+				Categorias categoriaBbdd = new Categorias();
+				Categoria cat = categoriaBbdd.buscarCategoriaCodigo(articulo.getCategoria().getCodigo());
+				if(cat!=null){
+					articulo.setCategoria(cat);
+					//Recupero la categoría de base de datos
+					if(articulo.isNovedad()){
+						recargo = cat.getRecargoNovedad();
+						tiempo = cat.getTiempoAlquilerNovedad();
+					}else{
+						recargo = cat.getRecargoBase();
+						tiempo = cat.getTiempoAlquiler();
+					}
+					//listaPeliculasAlquiladas.add(new ArticuloAlquilado(ArticuloAlquilado.generarCodigo(), articulo, new Date(),null , 
+					//		usuario, "", recargo, articulo.getPrecioAlquiler(), tiempo));
+					articulo.setAlquilado(true);
+					
+					//Guardar cambio en bbdd
+					//Articulo.listaPeliculas.set(posArticulo, articulo);
+					
+					System.out.println("*** Artículo alquilado ***");
+				}
 			}
-			//listaPeliculasAlquiladas.add(new ArticuloAlquilado(ArticuloAlquilado.generarCodigo(), articulo, new Date(),null , 
-			//		usuario, "", recargo, articulo.getPrecioAlquiler(), tiempo));
-			articulo.setAlquilado(true);
-			//Articulo.listaPeliculas.set(posArticulo, articulo);
-			
-			System.out.println("*** Artículo alquilado ***");
-			
 		}
 	}
 	
