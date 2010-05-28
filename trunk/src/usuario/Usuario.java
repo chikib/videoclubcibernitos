@@ -1,5 +1,6 @@
 package usuario;
 
+import bbdd.Usuarios;
 import varios.InputStreamVideoclub;
 import varios.VideoException;
 import varios.Videoclub;
@@ -191,19 +192,19 @@ public class Usuario {
 	//public void modUs ( String vnom ,String vapell, String vdni)
 	public void modUs ( int codUs)
 	{
-		boolean fin = false;
+		/*boolean fin = false;
 		String cadena = "";
 		int indiceLista;
 		
-		//indiceLista = buscaUs(vdni,vapell,vnom); /* metodo busqueda en la coleccion */
+		//indiceLista = buscaUs(vdni,vapell,vnom);  metodo busqueda en la coleccion 
 		indiceLista = buscaUscod(codUs); 
-		/* metodo busqueda en la coleccion el codigo de 
-		usuario y devuelve el indice de la lista donde se encuentra */
-		usPantalla(indiceLista); //mostramos los datos del usuario por pantalla
+		// metodo busqueda en la coleccion el codigo de 
+		//usuario y devuelve el indice de la lista donde se encuentra 
+		//usPantalla(indiceLista); //mostramos los datos del usuario por pantalla
 		
 		
-		/*si se ha encontrado el usuario procedemos a 
-		 *capturar los datos que queremos modificar */
+		//si se ha encontrado el usuario procedemos a 
+		 //capturar los datos que queremos modificar 
 		do
 		{	System.out.println ("-----------------------------------");
 			System.out.println ("(1) Introducir Código : ");
@@ -286,19 +287,18 @@ public class Usuario {
 		}while(!fin ); 
 		
 		Usuario us = new Usuario();
-		Videoclub.listaUsuarios.set( indiceLista , us);
+		Videoclub.listaUsuarios.set( indiceLista , us);*/
 			
 	}
 	
-	public static int buscaUscod(int codUs) 
+	public static Usuario buscaUscod(int codUs) 
 	{
 		// se introduce el codigo de usuario que se desea encontrar 
 		//y si lo encu8entra, devuelve el objeto usuario 
 		
 		//creamos el iterador para recorrer  la lista de usuarios
 		
-		int i = 0;
-		for (Usuario us : Videoclub.listaUsuarios)
+		/*for (Usuario us : Videoclub.listaUsuarios)
 		{
 			if (us.getCodigo() == codUs)
 			{
@@ -306,9 +306,10 @@ public class Usuario {
 				return i; // devuelve la posicion en que se encuentra el cliente dentro de la lista
 			}
 			i++;
-		}
+		}*/
 	
-		return -1;
+		Usuarios usubbdd = new Usuarios();
+		return usubbdd.buscarUsuario(codUs);
 	}
 	/*public int buscaUs(String dni, String nombre, String apellidos) 
 	{
@@ -326,18 +327,24 @@ public class Usuario {
 	public static Usuario identificarUsuario(){
 		InputStreamVideoclub.pedirCadena("Introduzca el número de socio del cliente o 0 para volver al menú anterior: ");
 		String cadena = InputStreamVideoclub.cadena;
+		Usuario usu = null;
 		int numeroSocio;
 		try{
 			numeroSocio = Integer.parseInt(cadena);
 			switch(numeroSocio){
 				case 0: Videoclub.mostrarMenuPrincipal();break;
 				default: {
-					int pos = Usuario.buscaUscod(numeroSocio);
-					if(pos>=0){
-						return Videoclub.listaUsuarios.get(pos);
+					usu = Usuario.buscaUscod(numeroSocio);
+					if(usu!=null){
+						return usu;
 					}else{
 						throw new VideoException("*** El número de socio indicado no existe ***\n");
 					}
+					/*if(pos>=0){
+						return Videoclub.listaUsuarios.get(pos);
+					}else{
+						throw new VideoException("*** El número de socio indicado no existe ***\n");
+					}*/
 						
 				}
 			}

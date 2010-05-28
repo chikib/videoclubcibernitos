@@ -9,12 +9,12 @@ import articulos.Soporte;
 
 public class Articulos {
 	
-	public Articulo buscarArticulo(int codigo){
+	public Articulo buscarArticuloCodigoBarras(int codigo){
 		Articulo art = null;
 		Conexion con = new Conexion();
 		StringBuilder stb = new StringBuilder("SELECT codigo, titulo, codigoBarras,precio,descripcion," +
 				"categoria,soporte,proveedor,alquilado,fechaCompra,precioCompra,novedad,localizacion " +
-				"from ARTICULOS WHERE codigo = "+codigo);
+				"from articulos WHERE codigoBarras = "+codigo);
 		try{
 			ResultSet res = con.consulta(stb.toString());
 			if(res.next()){
@@ -24,6 +24,7 @@ public class Articulos {
 				art.setCodigoBarras(res.getLong("codigoBarras"));
 				art.setPrecioAlquiler(res.getDouble("precio"));
 				art.setDescripcion(res.getString("descripcion"));
+				
 				Categoria cat = new Categoria();
 				cat.setCodigo(res.getInt("categoria"));
 				art.setCategoria(cat);
@@ -35,7 +36,7 @@ public class Articulos {
 				art.setFechaCompra(res.getDate("fechaCompra"));
 				art.setPrecioCompra(res.getDouble("precioCompra"));
 				art.setNovedad(res.getBoolean("novedad"));
-				art.setLocalizacion(res.getString("localización"));
+				art.setLocalizacion(res.getString("localizacion"));
 			}
 		}catch(SQLException e){
 			System.out.println(e.getMessage());
