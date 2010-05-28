@@ -22,7 +22,7 @@ public class Articulos {
 				art.setCodigo(res.getInt("codigo"));
 				art.setTitulo(res.getString("titulo"));
 				art.setCodigoBarras(res.getLong("codigoBarras"));
-				art.setPrecioAlquiler(res.getInt("precio"));
+				art.setPrecioAlquiler(res.getDouble("precio"));
 				art.setDescripcion(res.getString("descripcion"));
 				Categoria cat = new Categoria();
 				cat.setCodigo(res.getInt("categoria"));
@@ -33,7 +33,7 @@ public class Articulos {
 				prov.setCodigo(res.getInt("proveedor"));
 				art.setAlquilado(res.getBoolean("alquilado"));
 				art.setFechaCompra(res.getDate("fechaCompra"));
-				art.setPrecioCompra(res.getInt("precioCompra"));
+				art.setPrecioCompra(res.getDouble("precioCompra"));
 				art.setNovedad(res.getBoolean("novedad"));
 				art.setLocalizacion(res.getString("localización"));
 			}
