@@ -11,17 +11,19 @@ public class Albaranes {
 	public Albaran buscarAlbaran(int codigo){
 		Albaran al = null;
 		
-		StringBuilder stb = new StringBuilder("SELECT codigo, preTot, fech, cliente, cancel " +
-				"FROM albaranes WHERE cod = " + codigo);
+		StringBuilder stb = new StringBuilder("SELECT codigo, precioTotal, fecha, cliente, cancelado " +
+				"FROM albaranes WHERE codigo = " + codigo);
 		
 		try{
 			ResultSet res = con.consulta(stb.toString());
 			if(res.next()){
 				al = new Albaran();
 				al.setCodigo(res.getInt("codigo"));
-				al.setPrecioTotal(res.getDouble("preTot"));
-				al.setFecha(res.getDate("fech"));
+				al.setPrecioTotal(res.getDouble("precioTotal"));
+				al.setFecha(res.getDate("fecha"));
 				//al.setCliente(res.getInt("cliente"));
+				al.setCancelado(res.getBoolean("cancelado"));
+
 			}
 		}catch(SQLException e){
 			System.out.println(e.getMessage());
@@ -37,7 +39,7 @@ public class Albaranes {
 	}
 	
 	public void crearAlbaran(int cod, double preTota, Date fech, Usuario clie, boolean canc){
-		StringBuilder stb = new StringBuilder("INSERT INTO albaranes(codigo, preTot, fech, cliente, cancel)" +
+		StringBuilder stb = new StringBuilder("INSERT INTO albaranes(codigo, precioTotal, fecha, cliente, cancelado)" +
 				"VALUES (cod, preTota, fech, clie, canc)");
 		try{
 			con.consulta(stb.toString());

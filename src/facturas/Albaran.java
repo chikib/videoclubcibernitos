@@ -30,6 +30,7 @@ public class Albaran extends Caja {
 	}
 
 	
+	
 	//Consulta los albaranes en un mes concreto
 	public List consultar(int mes){
 		List miLista = new ArrayList();
