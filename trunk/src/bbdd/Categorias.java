@@ -2,7 +2,11 @@ package bbdd;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import articulos.Categoria;
+import articulos.Soporte;
 
 public class Categorias {
 	
@@ -29,5 +33,30 @@ public class Categorias {
 			con.cerrarConexion();
 		}
 		return cat;
+	}
+	
+	public List getCategorias(){
+		Categoria categoria = null;
+		List listaCategorias = new ArrayList();
+		Conexion con = new Conexion();
+		StringBuilder stb = new StringBuilder("select codigo,tematica from categorias order by tematica");
+		try{
+			ResultSet res = con.consulta(stb.toString());
+			while(res.next()){
+				categoria = new Categoria();
+				categoria.setCodigo(res.getInt("codigo"));
+				categoria.setTematica(res.getString("tematica"));
+				listaCategorias.add(categoria);
+			}
+		}catch(SQLException e){
+			System.out.println(e.getMessage());
+		}
+		catch(NumberFormatException e){
+			System.out.println(e.getMessage());
+		}
+		finally{
+			con.cerrarConexion();
+		}
+		return listaCategorias; 
 	}
 }
