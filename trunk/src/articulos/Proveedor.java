@@ -4,6 +4,11 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import bbdd.Articulos;
+import bbdd.Proveedores;
+
+import varios.InputStreamVideoclub;
 import varios.VideoException;
 
 /* Inicio del programa: 24-mayo-2010
@@ -174,6 +179,48 @@ public class Proveedor {
 
 			}
 		}
+	}
+	
+	public void rellenarProveedor(){
+		String cadena = "";
+		System.out.println (" Introducir el nombre: ");
+		InputStreamVideoclub.pedirCadena();
+		cadena = InputStreamVideoclub.cadena;
+		setNombre(cadena);
+		
+		System.out.println (" Introducir el CIF: ");
+		InputStreamVideoclub.pedirCadena();
+		cadena = InputStreamVideoclub.cadena;
+		setCif(cadena);
+		
+		System.out.println (" Introducir el teléfono: ");
+		InputStreamVideoclub.pedirCadena();
+		cadena = InputStreamVideoclub.cadena;
+		setTelefono(cadena);
+		
+		System.out.println (" Introducir el fax: ");
+		InputStreamVideoclub.pedirCadena();
+		cadena = InputStreamVideoclub.cadena;
+		setFax(cadena);
+		
+		System.out.println (" Introducir la dirección: ");
+		InputStreamVideoclub.pedirCadena();
+		cadena = InputStreamVideoclub.cadena;
+		setDireccion(cadena);
+		
+		System.out.println (" Introducir la web: ");
+		InputStreamVideoclub.pedirCadena();
+		cadena = InputStreamVideoclub.cadena;
+		setWeb(cadena);
+	}
+	
+	public void imprimirProveedores(){
+		Proveedores provBbdd = new Proveedores();
+		List<Proveedor> lista = provBbdd.getProveedores();
+		for(Proveedor prov: lista){
+			System.out.println("     ("+prov.getCodigo()+") "+prov.getNombre());
+		}
+		
 	}
 
 }

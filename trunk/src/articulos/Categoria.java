@@ -1,5 +1,10 @@
 package articulos;
 
+import java.util.List;
+
+import bbdd.Categorias;
+import bbdd.Soportes;
+
 public class Categoria {
 	private int codigo;
 	private String tematica;
@@ -95,4 +100,12 @@ public class Categoria {
 		
 	}
 
+	public void imprimirCategorias(){
+		Categorias categoriaBbdd = new Categorias();
+		List<Categoria> lista = categoriaBbdd.getCategorias();
+		for(Categoria categoria: lista){
+			System.out.println("     ("+categoria.getCodigo()+") "+categoria.getTematica());
+		}
+	}
+	
 }
