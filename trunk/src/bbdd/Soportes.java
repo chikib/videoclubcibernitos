@@ -4,10 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import articulos.Articulo;
-import articulos.Categoria;
-import articulos.Proveedor;
 import articulos.Soporte;
 
 public class Soportes {

@@ -1,8 +1,6 @@
 package articulos;
 
 import java.util.List;
-
-import bbdd.Proveedores;
 import bbdd.Soportes;
 
 public class Soporte {
