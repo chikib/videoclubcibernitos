@@ -26,23 +26,31 @@ public class Menu {
 			try{
 				switch(Integer.parseInt(cadena)){
 				case 1:{
-					mensaje = ArticuloAlquilado.alquilar();
-					if(!mensaje.equals("")){
-						throw new VideoException(mensaje);
+					InputStreamVideoclub.pedirCadena("Indique la cantidad de películas que desee alquilar");
+					List<String> listaMensajes = ArticuloAlquilado.alquilar(Integer.parseInt(InputStreamVideoclub.cadena));
+					if(listaMensajes.size()>0){
+						for(String mensajeDev: listaMensajes){
+							mensaje +=mensajeDev+"\n";
+						}
+						throw new VideoException(mensaje); 
 					}
 					break;
 				}
 				case 2: {
-					mensaje = ArticuloAlquilado.gestionDevolver();
-					if(!mensaje.equals("")){
+					InputStreamVideoclub.pedirCadena("Indique la cantidad de películas que desee devolver");
+					List<String> listaMensajes = ArticuloAlquilado.gestionDevolver(Integer.parseInt(InputStreamVideoclub.cadena));
+					if(listaMensajes.size()>0){
+						for(String mensajeDev: listaMensajes){
+							mensaje +=mensajeDev+"\n";
+						}
 						throw new VideoException(mensaje); 
 					}
 					break;
 				}
 				case 3: mostrarMenuUsuarios();break;
 				case 4: mostrarMenuPeliculas();break;
-				case 5: ;break;
-				case 6: ;break;
+				case 5: mostrarMenuConsultas();break;
+				case 6: mostrarMenuFacturacion();break;
 				case 7: {
 					fin = true; 
 					System.out.println("\n*** Fin de programa ***"); 
@@ -54,7 +62,7 @@ public class Menu {
 			}catch(NumberFormatException e){
 				System.out.println("Elija una opción válida");
 			}catch(VideoException e){
-				System.out.println(">>>>>>>>> "+e.getMessage()+"<<<<<<<<<");
+				System.out.println("La lista de errores es:\n"+e.getMessage());
 			}
 		}while(!fin);
 	}
@@ -157,8 +165,6 @@ public class Menu {
 			}
 		}while(!fin);
 	}
-	
-	
 	
 	public  String menuAltaPelicula(){
 		Articulo art = new Articulo();
@@ -270,5 +276,12 @@ public class Menu {
 		}
 		return mensaje;
 	}
-
+	
+	public void mostrarMenuConsultas(){
+		
+	}
+	
+	public void mostrarMenuFacturacion(){
+		
+	}
 }

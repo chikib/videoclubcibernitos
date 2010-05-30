@@ -5,11 +5,6 @@ import usuario.Usuario;
 
 public class Albaran extends Caja {
 	private boolean cancelado;
-	
-	//Me creo un ArrayList de tipo factura
-	public static List<Albaran> listaAlbaranes = new ArrayList();
-	List miLista = new ArrayList();
-	
 	public Albaran(int cod, double preTot, Date fech, Usuario cliente, boolean cancel){
 		super (cod, preTot, fech, cliente);
 		setCancelado(cancel);
@@ -32,18 +27,18 @@ public class Albaran extends Caja {
 	//Consulta los albaranes en un mes concreto
 	public List consultar(int mes){
 		List miLista = new ArrayList();
-		for (Albaran o : listaAlbaranes){
+		/*for (Albaran o : listaAlbaranes){
 			if (o.consultaMes()==mes){
 					miLista.add(o);
 				}
-		}
+		}*/
 		return miLista;
 	}
 
 	
 	//Consulta los albaranes entre dos fechas
 	public List consultaFechas(String fecha1, String fecha2){
-		long f1=convertirFecha(fecha1);
+		/*long f1=convertirFecha(fecha1);
 		long f2=convertirFecha(fecha2);
 		for (Albaran o : listaAlbaranes){
 			long ffactura=o.getFecha().getTime();
@@ -52,7 +47,8 @@ public class Albaran extends Caja {
 				miLista.add(o);
 			}
 		}
-		return miLista;
+		return miLista;*/
+		return new ArrayList();
 	}
 
 

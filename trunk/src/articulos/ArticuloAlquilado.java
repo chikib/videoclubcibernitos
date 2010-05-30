@@ -1,8 +1,15 @@
 package articulos;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+
+import facturas.Albaran;
+import facturas.Factura;
+import facturas.LineaAlbaran;
+import facturas.LineaFactura;
 
 import bbdd.Articulos;
 import bbdd.ArticulosAlquilados;
@@ -19,8 +26,6 @@ public class ArticuloAlquilado {
 	private int recargo;
 	private double precio;
 	private int tiempo;
-	
-	public static List<ArticuloAlquilado> listaPeliculasAlquiladas = new ArrayList();
 	
 	public ArticuloAlquilado(){
 		this.articulo = new Articulo();
@@ -112,117 +117,155 @@ public class ArticuloAlquilado {
 		return tiempo;
 	}
 	
-	public static String alquilar(){
+	public static List alquilar(int cantidad){
 		String mensaje = "";
+		List listaMensajes = new ArrayList();
 		//Identifico al usuario
 		Usuario usuario = Usuario.identificarUsuario();
+		//Creo el albarán
+		Albaran albaran = new Albaran(0,0,new Date(),usuario,false);
 		//Identifico la película
 		if(usuario!=null){
-			Articulo articulo = Articulo.identificarPelicula();
-			if(articulo!=null && !articulo.isAlquilado() && articulo.isAlquilable()){
-				int recargo = 0;
-				int tiempo = 0;
-				//Recupero la categoría de base de datos
-				Categorias categoriaBbdd = new Categorias();
-				Categoria cat = categoriaBbdd.buscarCategoriaCodigo(articulo.getCategoria().getCodigo());
-				if(cat!=null){
-					articulo.setCategoria(cat);
-					if(articulo.isNovedad()){
-						recargo = cat.getRecargoNovedad();
-						tiempo = cat.getTiempoAlquilerNovedad();
-					}else{
-						recargo = cat.getRecargoBase();
-						tiempo = cat.getTiempoAlquiler();
-					}
-					//Creo una relación entre el artículo y el cliente
-					ArticuloAlquilado artAlq = new ArticuloAlquilado(articulo,new Date(),null,usuario,"",recargo,articulo.getPrecioAlquiler(),tiempo);
-					ArticulosAlquilados artAlqBbdd = new ArticulosAlquilados();
-					//Guardar cambio en bbdd
-					Articulos artBbdd = new Articulos();
-					//Establezco que el artículo está alquilado
-					articulo.setAlquilado(true);
-					if(artBbdd.setArticuloAlquilado(articulo)==1){
-						if(artAlqBbdd.insertar(artAlq)==1){
-							System.out.println("*** Artículo alquilado ***\n");
+			for(int i=0;i!=cantidad;i++){
+				Articulo articulo = Articulo.identificarPelicula();
+				if(articulo!=null && !articulo.isAlquilado() && articulo.isAlquilable()){
+					int recargo = 0;
+					int tiempo = 0;
+					//Recupero la categoría de base de datos
+					Categorias categoriaBbdd = new Categorias();
+					Categoria cat = categoriaBbdd.buscarCategoriaCodigo(articulo.getCategoria().getCodigo());
+					if(cat!=null){
+						articulo.setCategoria(cat);
+						if(articulo.isNovedad()){
+							recargo = cat.getRecargoNovedad();
+							tiempo = cat.getTiempoAlquilerNovedad();
 						}else{
-							//Si la isnerción en articulos alquilados da error doy marcha atrás en que el artículo está alquilado
-							articulo.setAlquilado(false);
-							artBbdd.setArticuloAlquilado(articulo);
-							mensaje = "Ha ocurrido un error al asignar el artículo al cliente";
+							recargo = cat.getRecargoBase();
+							tiempo = cat.getTiempoAlquiler();
+						}
+						//Creo una relación entre el artículo y el cliente
+						ArticuloAlquilado artAlq = new ArticuloAlquilado(articulo,new Date(),null,usuario,"",recargo,articulo.getPrecioAlquiler(),tiempo);
+						ArticulosAlquilados artAlqBbdd = new ArticulosAlquilados();
+						//Guardar cambio en bbdd
+						Articulos artBbdd = new Articulos();
+						//Establezco que el artículo está alquilado
+						articulo.setAlquilado(true);
+						if(artBbdd.setArticuloAlquilado(articulo)==1){
+							if(artAlqBbdd.insertar(artAlq)==1){
+								albaran.setPrecioTotal(albaran.getPrecioTotal()+artAlq.getPrecio());
+								//crear la línea de albarán
+								LineaAlbaran linea = new LineaAlbaran(0, artAlq.getPrecio(), artAlq, albaran);
+								mensaje = linea.guardar();
+								if(mensaje.equals("")){
+									System.out.println("*** Artículo alquilado ***\n");
+								}else{
+									listaMensajes.add(mensaje);
+								}
+							}else{
+								//Si la inserción en articulos alquilados da error doy marcha atrás en que el artículo está alquilado
+								articulo.setAlquilado(false);
+								artBbdd.setArticuloAlquilado(articulo);
+								listaMensajes.add("Ha ocurrido un error al asignar el artículo al cliente");
+							}
+						}else{
+							listaMensajes.add("Ha habido un problema al establecer que el artículo ha sido alquilado");
 						}
 					}else{
-						mensaje = "Ha habido un problema al establecer que el artículo ha sido alquilado";
+						listaMensajes.add("Ha habido un problema al identificar la categoría del artículo");
 					}
 				}else{
-					mensaje = "Ha habido un problema al identificar la categoría del artículo";
+					listaMensajes.add("El artículo no existe o ya está alquilado");
 				}
-			}else{
-				mensaje = "El artículo no existe o ya está alquilado";
 			}
+			//Guardar en bbdd el albarán
 		}else{
-			mensaje = "Ha habido un error al identificar el usuario";
+			listaMensajes.add("Ha habido un error al identificar el usuario");
 		}
-		return mensaje;
+		return listaMensajes;
 	}
 	
-	public static String gestionDevolver(){
+	public static List gestionDevolver(int cantidad){
 		String mensaje = "";
 		//Identifico al usuario
 		Usuario usuario = Usuario.identificarUsuario();
+		List listaMensajes = new ArrayList();
 		if(usuario!=null){
-			//Identifico la película
-			Articulo articulo = Articulo.identificarPelicula();
-			if(articulo!=null && articulo.isAlquilado()){
-				//Identifico el artículo alquilado en base de datos
-				ArticulosAlquilados artDevBbdd = new ArticulosAlquilados();
-				ArticuloAlquilado articuloDev = new ArticuloAlquilado();
-				articuloDev = artDevBbdd.consultaArtAlqCodigo(usuario.getCodigo(),articulo.getCodigo());
-				if(articuloDev!=null){
-					articuloDev.setArticulo(articulo);
-					articuloDev.setCliente(usuario);
-					articulo.setAlquilado(false);
-					Articulos artBbdd = new Articulos();
-					//Cambio el atributo alquilado a falso
-					if(artBbdd.setArticuloAlquilado(articulo)==1){
-						//Actualizo la fecha de devolución
-						articuloDev.setFechaDevolucion(new Date());
-						if(artDevBbdd.actualizarFechaDevolucion(articuloDev)==1){
-							//Creo la factura y calculo si hay recargo
-							System.out.println("*** Artículo devuelto ***");
-							return "";
+			Factura factura = new Factura(0,0,new Date(),usuario);
+			//Devuelvo cada artículo
+			for(int i=0;i!=cantidad;i++){
+				//Identifico la película
+				Articulo articulo = Articulo.identificarPelicula();
+				if(articulo!=null && articulo.isAlquilado()){
+					//Identifico el artículo alquilado en base de datos
+					ArticulosAlquilados artDevBbdd = new ArticulosAlquilados();
+					ArticuloAlquilado articuloDev = new ArticuloAlquilado();
+					articuloDev = artDevBbdd.consultaArtAlqCodigo(usuario.getCodigo(),articulo.getCodigo());
+					if(articuloDev!=null){
+						articuloDev.setArticulo(articulo);
+						articuloDev.setCliente(usuario);
+						articulo.setAlquilado(false);
+						Articulos artBbdd = new Articulos();
+						//Cambio el atributo alquilado a falso
+						if(artBbdd.setArticuloAlquilado(articulo)==1){
+							//Actualizo la fecha de devolución
+							articuloDev.setFechaDevolucion(new Date());
+							if(artDevBbdd.actualizarFechaDevolucion(articuloDev)==1){
+								//Creo la factura y calculo si hay recargo
+								Date fechaAlquiler = articuloDev.fechaAlquiler;
+								int tiempoAlquiler = articuloDev.tiempo;
+								int recargo=articuloDev.getRecargo();
+								double precio = articuloDev.getPrecio();
+								GregorianCalendar gc = new GregorianCalendar();
+								gc.setTime(fechaAlquiler);
+								gc.add(Calendar.DAY_OF_YEAR, tiempoAlquiler);
+								if(new Date().after(gc.getTime())){
+									precio += precio*(recargo/100);
+								}
+								factura.setPrecioTotal(factura.getPrecioTotal()+precio);
+								//Creo la línea de la factura para este artículo
+								LineaFactura linea = new LineaFactura(0, precio, articuloDev, factura, recargo);
+								mensaje = linea.guardar();
+								if(mensaje.equals("")){
+									System.out.println("*** Artículo devuelto ***");
+								}else{
+									listaMensajes.add(mensaje);
+								}
+								
+							}else{
+								articulo.setAlquilado(true);
+								artBbdd.setArticuloAlquilado(articulo);
+								listaMensajes.add("Se ha producido un error al establecer la fecha de devolución");
+							}
 						}else{
-							articulo.setAlquilado(true);
-							artBbdd.setArticuloAlquilado(articulo);
-							mensaje = "Se ha producido un error al establecer la fecha de devolución";
+							listaMensajes.add("Se ha producido un error al establecer que el artículo ha sido alquilado");
 						}
 					}else{
-						mensaje = "Se ha producido un error al establecer que el artículo ha sido alquilado";
+						listaMensajes.add("El cliente indicado no tiene ese artículo alquilado");
 					}
 				}else{
-					mensaje = "El cliente indicado no tiene ese artículo alquilado";
+					listaMensajes.add("El artículo no existe o no está alquilado");
 				}
-			}else{
-				mensaje = "El artículo no existe o no está alquilado";
 			}
+			//Guardar en bbdd la factura
 		}else{
-			mensaje = "El usuario no ha sido encontrado";
+			listaMensajes.add("El usuario no ha sido encontrado");
 		}
-		return mensaje;
+		return listaMensajes;
 	}
 	
-	public static int generarCodigo(){
+	/*public static int generarCodigo(){
 		if(listaPeliculasAlquiladas.size()>0){
 			return listaPeliculasAlquiladas.get(listaPeliculasAlquiladas.size()-1).getCodigo()+1;
 		}
 		return 1;
-	}
+	}*/
 	
-	public static ArticuloAlquilado buscar(Usuario usuario, Articulo articulo){
+	/*public static ArticuloAlquilado buscar(Usuario usuario, Articulo articulo){
 		for(ArticuloAlquilado artAlq: listaPeliculasAlquiladas){
 			if(artAlq.getArticulo().equals(articulo) && artAlq.getCliente().equals(usuario)){
 				return artAlq;
 			}
 		}
 		return null;
-	}
+	}*/
 }
