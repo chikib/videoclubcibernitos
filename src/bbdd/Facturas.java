@@ -1,5 +1,8 @@
 package bbdd;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 import facturas.*;
 import usuario.*;
 
@@ -19,7 +22,9 @@ public class Facturas {
 				fc.setCodigo(res.getInt("codigo"));
 				fc.setPrecioTotal(res.getDouble("precioTotal"));
 				fc.setFecha(res.getDate("fecha"));
-				//fc.setCliente(res.getInt("cliente"));
+				Usuario usu = new Usuario();
+				usu.setCodigo(res.getInt("cliente"));
+				fc.setCliente(usu);
 			}
 		}
 		catch(SQLException e){
@@ -63,17 +68,14 @@ public class Facturas {
 		return fc;
 	}
 	
-	public void crearFactura(int cod, double preTota, Date fech, Usuario clie){
+	public int crearFactura(int cod, double preTota, Date fech, Usuario clie){
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		String mensaje = "";
 		StringBuilder stb = new StringBuilder("INSERT INTO facturas(codigo, precioTotal, fecha, cliente)" +
-				"VALUES (cod, preTota, fech, clie)");
-		try{
-			con.consulta(stb.toString());
-		}
-		catch(Exception e){
-			System.out.println(e.getMessage());
-		}
-		finally{
-			con.cerrarConexion();
-		}		
+				"VALUES ("+cod+", "+preTota+", '"+df.format(fech)+"',"+ clie.getCodigo()+")");
+		int res = con.insertarUpdate(stb.toString());	
+		con.cerrarConexion();
+			
+		return res;
 	}
 }
