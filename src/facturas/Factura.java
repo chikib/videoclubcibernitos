@@ -1,19 +1,12 @@
 package facturas;
-
-import java.text.*;
 import java.util.*;
-
 import usuario.Usuario;
 
 public class Factura extends Caja{
 	//Me creo un ArrayList de tipo albaran
 	public static List<Factura> listaFacturas = new ArrayList();
 	Date fech=new Date();
-	List miLista = new ArrayList();
-	
-	
-	//Me creo un Iterator para poder recorrer mis colecciones de tipo factura
-	
+	List miLista = new ArrayList();	
 	public Factura(){
 		
 	}

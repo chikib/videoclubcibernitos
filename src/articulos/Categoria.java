@@ -1,9 +1,7 @@
 package articulos;
 
 import java.util.List;
-
 import bbdd.Categorias;
-import bbdd.Soportes;
 
 public class Categoria {
 	private int codigo;

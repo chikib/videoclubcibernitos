@@ -5,13 +5,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import bbdd.Articulos;
-import bbdd.ArticulosAlquilados;
-
 import varios.InputStreamVideoclub;
+import varios.Menu;
 import varios.VideoException;
-import varios.Videoclub;
+
 public class Articulo {
 	private int codigo;
 	private long codigoBarras;
@@ -153,7 +151,6 @@ public class Articulo {
 	}
 	
 	public static Articulo buscaArticulo(int codigo){
-		int i = 0;
 		Articulos artbbdd = new Articulos();
 		Articulo art = artbbdd.buscarArticuloCodigoBarras(codigo);		
 		return art;
@@ -166,7 +163,7 @@ public class Articulo {
 		try{
 			codigo = Integer.parseInt(cadena);
 			switch(codigo){
-				case 0: Videoclub.mostrarMenuPrincipal();break;
+				case 0: new Menu().mostrarMenuPrincipal();break;
 				default: {
 						int pos = Articulo.buscaArticuloDisponible(codigo);
 						if(pos>=0){
@@ -194,7 +191,7 @@ public class Articulo {
 		try{
 			codigo = Integer.parseInt(cadena);
 			switch(codigo){
-				case 0: Videoclub.mostrarMenuPrincipal();break;
+				case 0: new Menu().mostrarMenuPrincipal();break;
 				default: {
 					art = buscaArticulo(codigo);
 					if(art!=null){
@@ -328,9 +325,10 @@ public class Articulo {
 		System.out.println("(14) Salir ");
 	}
 	
-	public void menuModificarPelicula(){
+	public String menuModificarPelicula(){
 		int opcion ;
 		boolean salir = false;
+		String mensaje = "";
 		//mostrar los campos de ese artículo y sus valores
 		try{
 			do{
@@ -415,7 +413,12 @@ public class Articulo {
 					}case 14:{
 						//Confirmar que los datos finales son los que desea guardar
 						Articulos artBbdd = new Articulos();
-						artBbdd.editar(this);
+						int res = artBbdd.editar(this);
+						if(res==0){
+							mensaje = "Ha ocurrido un error al modificar el artículo";
+						}else{
+							System.out.println("Modiicación realizada con éxito");
+						}
 						salir= true; 
 						break;
 					}default:{
@@ -427,6 +430,7 @@ public class Articulo {
 			System.out.println("Error en el formato de la opción");
 			menuModificarPelicula();
 		}
+		return mensaje;
 	}
 	
 	public String rellenaPeliculaEdicion()

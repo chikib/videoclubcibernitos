@@ -1,10 +1,10 @@
 package usuario;
 
+import java.util.List;
 import bbdd.Usuarios;
 import varios.InputStreamVideoclub;
+import varios.Menu;
 import varios.VideoException;
-import varios.Videoclub;
-
 
 public class Usuario {
 
@@ -88,193 +88,194 @@ public class Usuario {
 		
 	}
 		
-	public void altaUsuario ()
+	public String rellenaUsuario()
 	{
-	//en este metodo se procedera al almacenamiento de los atributos del objeto
-	//	boolean fin = false;
+		//en este metodo se procedera al almacenamiento de los atributos del objeto
 		String cadena = "";
-		//int i = 1;
-		Usuario oUsu = new Usuario(); 
-		
+		String mensaje = "";
 		try
-		{
-				System.out.println ("(1) Introducir Código : "); 
-				InputStreamVideoclub.pedirCadena();
-				cadena = InputStreamVideoclub.cadena;
-				oUsu.setCodigo(Integer.parseInt(cadena));
-				
-				
-				System.out.println ("(2) Introducir Nombre : ");
-				InputStreamVideoclub.pedirCadena();
-				cadena = InputStreamVideoclub.cadena;
-				oUsu.setNombre(cadena);
-				
-				System.out.println ("(3) Introducir Apellidos : ");
-				InputStreamVideoclub.pedirCadena();
-				cadena = InputStreamVideoclub.cadena;
-				oUsu.setApellidos(cadena);
-				
-				System.out.println ("(4) Introducir Dni : ");
-				InputStreamVideoclub.pedirCadena();
-				cadena = InputStreamVideoclub.cadena;
-				oUsu.setDni(cadena);
-				
-				System.out.println ("(5) Introducir Dirección : ");
-				InputStreamVideoclub.pedirCadena();
-				cadena = InputStreamVideoclub.cadena;
-				oUsu.setDireccion(cadena);
-				
-				System.out.println ("(6) Introducir Telefono : ");
-				InputStreamVideoclub.pedirCadena();
-				cadena = InputStreamVideoclub.cadena;
-				oUsu.setTelefono(cadena);
-				
-				System.out.println ("(7) Introducir Usuario activo : ");
-				InputStreamVideoclub.pedirCadena();
-				cadena = InputStreamVideoclub.cadena;
-				oUsu.setActivo(Boolean.parseBoolean(cadena));
-				
-				System.out.println ("(8) Introducir Bloqueado : ");
-				InputStreamVideoclub.pedirCadena();
-				cadena = InputStreamVideoclub.cadena;
-				oUsu.setBloqueado(Boolean.parseBoolean(cadena));
-				
-				System.out.println(" Proceso de alta finalizado. ");
-				
+		{				
+			InputStreamVideoclub.pedirCadena("Introducir Nombre : ");
+			cadena = InputStreamVideoclub.cadena;
+			setNombre(cadena);
 			
+			InputStreamVideoclub.pedirCadena("Introducir Apellidos : ");
+			cadena = InputStreamVideoclub.cadena;
+			setApellidos(cadena);
+			
+			InputStreamVideoclub.pedirCadena("Introducir Dni : ");
+			cadena = InputStreamVideoclub.cadena;
+			setDni(cadena);
+			
+			InputStreamVideoclub.pedirCadena("Introducir Dirección : ");
+			cadena = InputStreamVideoclub.cadena;
+			setDireccion(cadena);
+			
+			InputStreamVideoclub.pedirCadena("Introducir Teléfono : ");
+			cadena = InputStreamVideoclub.cadena;
+			setTelefono(cadena);
+			
+			boolean error = false;
+			do{
+				InputStreamVideoclub.pedirCadena("Introducir el valor de Usuario activo (1 para cierto y 0 para falso) : ");
+				cadena = InputStreamVideoclub.cadena;
+				if(!cadena.equals("1") && !cadena.equals("0")){
+					error = true;
+				}else{
+					error = false;
+					setActivo(Boolean.parseBoolean(cadena));
+				}
+			}while(error);
+			
+			error = false;
+			do{
+				InputStreamVideoclub.pedirCadena("Introducir el valor de Bloqueado (1 para cierto y 0 para falso): ");
+				cadena = InputStreamVideoclub.cadena;
+				if(!cadena.equals("1") && !cadena.equals("0")){
+					error = true;
+				}else{
+					error = false;
+					setBloqueado(Boolean.parseBoolean(cadena));
+				}
+			}while(error);
 		}
 		catch(NumberFormatException e)
 		{
-			System.out.println("Elija una opción válida");
+			mensaje = "Ha ocurrido un error al transformar uno de los valores indicados en la inserción";
 		}
-		
-		//añado a la lista el objeto creado con los datos del nuevo usuario
-		Videoclub.listaUsuarios.add(oUsu); 
-		
+		return mensaje;
 	}
 	
-	public String  usPantalla (int indiceLista)
-	{
-		/* Hya que introducir el indice de la lista donde se encuentra el usuario buscado
-		 * Este método devuelve una cadena formateada para ser impresa por pantalla*/
-		
-		/*System.out.print ("Datos del Usuario");
-		System.out.print ("Código : " + this.codigo);
-		System.out.print ("Nombre : " + this.nombre);
-		System.out.print ("Apellidos : " + this.apellidos);
-		System.out.print ("Dni : " + this.dni);
-		System.out.print ("Dirección : " + this.direccion);
-		System.out.print ("Telefono : " + this.telefono);
-		System.out.print ("Usuario activo : " + this.activo);
-		System.out.print ("Bloqueado : " + this.bloqueado);*/
-		
-		Videoclub.listaUsuarios.get(indiceLista);
-		Usuario us = new Usuario();
-		
-		
-		return ("Datos del Usuario" + "/n" +
-		"Código         : " + us.codigo+ "/n" +
-		"Nombre         : " + us.nombre + "/n" +
-		"Apellidos      : " + us.apellidos + "/n" +
-		"Dni            : " + us.dni + "/n" +
-		"Dirección      : " + us.direccion + "/n" +
-		"Telefono       : " + us.telefono + "/n" +
-		"Usuario activo : " + us.activo + "             " +
-		"Bloqueado      : " + us.bloqueado);
+	public String altaUsuario(){
+		String mensaje = "";
+		Usuarios usu = new Usuarios();
+		int res = usu.insertar(this);
+		if(res==0){
+			mensaje = "No se ha podido insertar el artículo";
+		}else{
+			System.out.println("\n******** Artículo insertado *********\n");
+		}
+		return mensaje;
+	}
+	
+	public String  usPantalla ()
+	{		
+		return ("Código         : " + codigo+ "\n" +
+		"Nombre         : " + nombre + "\n" +
+		"Apellidos      : " + apellidos + "\n" +
+		"Dni            : " + dni + "\n" +
+		"Dirección      : " + direccion + "\n" +
+		"Telefono       : " + telefono + "\n" +
+		"Usuario activo : " + activo + "\n" +
+		"Bloqueado      : " + bloqueado);
 				
 	}	
 	
-	public void buscaUs(String dni, String nombre, String apellidos)
+	public List buscaUs(String nombre, String apellidos, String dni)
 	{
-		//metodo no definido esperando a la creacion de bbdd para hacer la busqueda mediante select 
+		return new Usuarios().buscarUsuarioDatos(nombre, apellidos, dni);	
 	}
 	
-	//public void modUs ( String vnom ,String vapell, String vdni)
-	public void modUs ( int codUs)
+	
+	public void mostrarCamposUsuario(){
+		String activo = "0";
+		if(isActivo()){
+			activo = "1";
+		}
+		String bloqueado = "0";
+		if(isBloqueado()){
+			bloqueado = "1";
+		}
+		System.out.println("La lista de campos que se pueden modificar son: ");
+		System.out.println ("-----------------------------------");
+		System.out.println ("(1) Nombre : "+getNombre());
+		System.out.println ("(2) Apellidos : "+getApellidos());
+		System.out.println ("(3) Dni : "+getDni());
+		System.out.println ("(4) Dirección : "+getDireccion());
+		System.out.println ("(5) Telefono : "+getTelefono());
+		System.out.println ("(6) Usuario activo : "+activo);
+		System.out.println ("(7) Bloqueado : "+bloqueado);
+		System.out.println ("(8) Salir ");
+		System.out.println ("-----------------------------------");
+	}
+	
+	public String modUs ()
 	{
-		/*boolean fin = false;
+		boolean fin = false;
 		String cadena = "";
-		int indiceLista;
-		
-		//indiceLista = buscaUs(vdni,vapell,vnom);  metodo busqueda en la coleccion 
-		indiceLista = buscaUscod(codUs); 
+		String mensaje = "";
 		// metodo busqueda en la coleccion el codigo de 
-		//usuario y devuelve el indice de la lista donde se encuentra 
-		//usPantalla(indiceLista); //mostramos los datos del usuario por pantalla
-		
+		//usuario y devuelve el indice de la lista donde se encuentra 		
 		
 		//si se ha encontrado el usuario procedemos a 
-		 //capturar los datos que queremos modificar 
+		 //capturar los datos que queremos modificar 		
 		do
-		{	System.out.println ("-----------------------------------");
-			System.out.println ("(1) Introducir Código : ");
-			System.out.println ("(2) Introducir Nombre : ");
-			System.out.println ("(3) Introducir Apellidos : ");
-			System.out.println ("(4) Introducir Dni : ");
-			System.out.println ("(5) Introducir Dirección : ");
-			System.out.println ("(6) Introducir Telefono : ");
-			System.out.println ("(7) Introducir Usuario activo : ");
-			System.out.println ("(8) Introducir Bloqueado : ");
-			System.out.println ("(9) Salir : ");
-			System.out.println ("-----------------------------------");
-			
-			InputStreamVideoclub.pedirCadena();
+		{	
+			InputStreamVideoclub.pedirCadena("Introduzca el número asociado al campo que desea modificar");
 			cadena = InputStreamVideoclub.cadena;
 			try{
 				switch(Integer.parseInt(cadena))
 				{
-					
-					case 1:
-						System.out.println ("(1) Introducir Código : "); 
-						InputStreamVideoclub.pedirCadena();
-						cadena = InputStreamVideoclub.cadena;
-						setCodigo(Integer.parseInt(cadena));
-						break;
-					case 2: 
-						System.out.println ("(2) Introducir Nombre : ");
-						InputStreamVideoclub.pedirCadena();
+					case 1: 
+						InputStreamVideoclub.pedirCadena("(2) Introducir Nombre : ");
 						cadena = InputStreamVideoclub.cadena;
 						setNombre(cadena);
 						break;
-					case 3: 
-						System.out.println ("(3) Introducir Apellidos : ");
-						InputStreamVideoclub.pedirCadena();
+					case 2: 
+						InputStreamVideoclub.pedirCadena("(3) Introducir Apellidos : ");
 						cadena = InputStreamVideoclub.cadena;
 						setApellidos(cadena);
 						break;
-					case 4:
-						System.out.println ("(4) Introducir Dni : ");
-						InputStreamVideoclub.pedirCadena();
+					case 3:
+						InputStreamVideoclub.pedirCadena("(4) Introducir Dni : ");
 						cadena = InputStreamVideoclub.cadena;
 						setDni(cadena);
 						break;
-					case 5:
-						System.out.println ("(5) Introducir Dirección : ");
-						InputStreamVideoclub.pedirCadena();
+					case 4:
+						InputStreamVideoclub.pedirCadena("(5) Introducir Dirección : ");
 						cadena = InputStreamVideoclub.cadena;
 						setDireccion(cadena);
 						break;
-					case 6 :
-						System.out.println ("(6) Introducir Telefono : ");
-						InputStreamVideoclub.pedirCadena();
+					case 5 :
+						InputStreamVideoclub.pedirCadena("(6) Introducir Telefono : ");
 						cadena = InputStreamVideoclub.cadena;
 						setTelefono(cadena);
 						break;
+					case 6:
+						boolean error = false;
+						do{
+							InputStreamVideoclub.pedirCadena("Introducir el valor de Usuario activo (1 para cierto y 0 para falso) : ");
+							cadena = InputStreamVideoclub.cadena;
+							if(!cadena.equals("1") && !cadena.equals("0")){
+								error = true;
+							}else{
+								error = false;
+								setActivo(Boolean.parseBoolean(cadena));
+							}
+						}while(error);
+						break;
 					case 7:
-						System.out.println ("(7) Introducir Usuario activo : ");
-						InputStreamVideoclub.pedirCadena();
-						cadena = InputStreamVideoclub.cadena;
-						setActivo(Boolean.parseBoolean(cadena));
+						error = false;
+						do{
+							InputStreamVideoclub.pedirCadena("Introducir el valor de Bloqueado (1 para cierto y 0 para falso): ");
+							cadena = InputStreamVideoclub.cadena;
+							if(!cadena.equals("1") && !cadena.equals("0")){
+								error = true;
+							}else{
+								error = false;
+								setBloqueado(Boolean.parseBoolean(cadena));
+							}
+						}while(error);
 						break;
 					case 8:
-						System.out.println ("(8) Introducir Bloqueado : ");
-						InputStreamVideoclub.pedirCadena();
-						cadena = InputStreamVideoclub.cadena;
-						setBloqueado(Boolean.parseBoolean(cadena));
-						break;
-					case 9:
-						fin = true;					
-						System.out.println(" Proceso de alta finalizado. ");
+						Usuarios usuBbdd= new Usuarios();
+						int res = usuBbdd.modificar(this);
+						if(res==0){
+							mensaje = "Ha ocurrido un error al modificar el artículo";
+						}else{
+							System.out.println("Modiicación realizada con éxito");
+						}
+						fin= true; 
 						break;
 					default: System.out.println("Elija una opción válida");
 												
@@ -282,47 +283,20 @@ public class Usuario {
 			}catch(NumberFormatException e)
 			{
 				System.out.println("Elija una opción válida");
+				modUs();
 			}
 						
 		}while(!fin ); 
-		
-		Usuario us = new Usuario();
-		Videoclub.listaUsuarios.set( indiceLista , us);*/
-			
+		return mensaje;
 	}
 	
 	public static Usuario buscaUscod(int codUs) 
 	{
 		// se introduce el codigo de usuario que se desea encontrar 
-		//y si lo encu8entra, devuelve el objeto usuario 
-		
-		//creamos el iterador para recorrer  la lista de usuarios
-		
-		/*for (Usuario us : Videoclub.listaUsuarios)
-		{
-			if (us.getCodigo() == codUs)
-			{
-				//Videoclub.listaUsuarios.indexOf(us);
-				return i; // devuelve la posicion en que se encuentra el cliente dentro de la lista
-			}
-			i++;
-		}*/
-	
+		//y si lo encu8entra, devuelve el objeto usuario 	
 		Usuarios usubbdd = new Usuarios();
 		return usubbdd.buscarUsuario(codUs);
 	}
-	/*public int buscaUs(String dni, String nombre, String apellidos) 
-	{
-		// se introduce el dni , nombre y apellidos  de usuario que se desea encontrar 
-		//y si lo encu8entra, devuelve el objeto usuario 
-		
-		//creamos el iterador para recorrer  la lista de usuarios
-		
-		for (Usuario us : Videoclub.Listausuarios)
-		{
-			
-		}
-	}*/
 	
 	public static Usuario identificarUsuario(){
 		InputStreamVideoclub.pedirCadena("Introduzca el número de socio del cliente o 0 para volver al menú anterior: ");
@@ -332,7 +306,7 @@ public class Usuario {
 		try{
 			numeroSocio = Integer.parseInt(cadena);
 			switch(numeroSocio){
-				case 0: Videoclub.mostrarMenuPrincipal();break;
+				case 0: new Menu().mostrarMenuPrincipal();break;
 				default: {
 					usu = Usuario.buscaUscod(numeroSocio);
 					if(usu!=null){
@@ -340,11 +314,6 @@ public class Usuario {
 					}else{
 						throw new VideoException("*** El número de socio indicado no existe ***\n");
 					}
-					/*if(pos>=0){
-						return Videoclub.listaUsuarios.get(pos);
-					}else{
-						throw new VideoException("*** El número de socio indicado no existe ***\n");
-					}*/
 						
 				}
 			}

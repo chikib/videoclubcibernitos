@@ -4,10 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import articulos.Categoria;
-import articulos.Soporte;
-
 public class Categorias {
 	
 	public Categoria buscarCategoriaCodigo(int codigo){

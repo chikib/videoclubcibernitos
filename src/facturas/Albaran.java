@@ -1,6 +1,4 @@
 package facturas;
-
-import java.text.*;
 import java.util.*;
 
 import usuario.Usuario;
