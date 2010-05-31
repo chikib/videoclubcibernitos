@@ -1,6 +1,9 @@
 package facturas;
 import java.util.*;
 
+import bbdd.Albaranes;
+import bbdd.Facturas;
+
 import usuario.Usuario;
 
 public class Factura extends Caja{
@@ -13,10 +16,25 @@ public class Factura extends Caja{
 		super (cod,pretot,fech,cliente);
 	}
 	
-	public void crearFactura(int cod, int pretot, Usuario cliente){
-		Factura miFactura = new Factura(cod, pretot, fech, cliente);
-		//miLista.add(miFactura);
+	public String crearFactura(){
+		String mensaje="";
+		Facturas miFactura = new Facturas();
+		int res=miFactura.insertarFactura(this);
 		
+		if (res==0){
+			mensaje="No se ha podido crear la factura";
+		}
+		else{
+			System.out.println("\n******** Factura creada *********\n");
+			
+		}
+		return mensaje;
+		
+	}
+	
+	public void buscarFactura(int codFa){
+		Facturas bddFa = new Facturas();
+		bddFa.buscarFactura(codFa);
 	}
 	
 	//Consulta las facturas en un mes concreto

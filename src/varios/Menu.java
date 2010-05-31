@@ -5,6 +5,7 @@ import java.util.List;
 import usuario.Usuario;
 import articulos.Articulo;
 import articulos.ArticuloAlquilado;
+import facturas.*;
 
 public class Menu {
 	//Método que muestra el menú principal
@@ -282,6 +283,92 @@ public class Menu {
 	}
 	
 	public void mostrarMenuFacturacion(){
+		boolean fin = false;
+		String cadena = "";
 		
+		do{
+			System.out.println("(1) Facturas");
+			System.out.println("(2) Albaranes");
+			System.out.println("(3) Volver");
+			
+			
+			InputStreamVideoclub.pedirCadena();
+			cadena = InputStreamVideoclub.cadena;
+			
+			try{
+				switch(Integer.parseInt(cadena)){
+				case 1: menuFactura();break;
+				case 2: menuAlbaran();break;
+				case 3: mostrarMenuPrincipal();fin = true; break;
+				
+				default: System.out.println("Elija una opción válida");
+				}
+			}catch(NumberFormatException e){
+				System.out.println("Elija una opción válida");
+			}
+		}while(!fin);
 	}
+	
+	public void menuFactura(){
+		boolean fin = false;
+		String cadena = "";
+		
+		do{
+			System.out.println("(1) Crear factura");
+			System.out.println("(2) Consultar factura por mes");
+			System.out.println("(3) Consultar factura entre dos fechas");
+			System.out.println("(4) Volver");
+			
+			InputStreamVideoclub.pedirCadena();
+			cadena = InputStreamVideoclub.cadena;
+			Factura fac = new Factura();
+			try{
+				switch(Integer.parseInt(cadena)){
+				case 1: fac.crearFactura();break;
+				case 2: fac.consultaMes();break;
+				case 3: //fac.consultarFechas();break;
+				case 4: mostrarMenuFacturacion();fin = true; break;
+				
+				default: System.out.println("Elija una opción válida");
+				}
+			}catch(NumberFormatException e){
+				System.out.println("Elija una opción válida");
+			}
+		}while(!fin);
+}
+
+	public void menuAlbaran(){
+		boolean fin = false;
+		String cadena = "";
+		
+		do{
+			System.out.println("(1) Crear albaran");
+			System.out.println("(2) Consultar albaran por mes");
+			System.out.println("(3) Consultar albaran entre dos fechas");
+			System.out.println("(4) Cancelar un albaran");
+			System.out.println("(5) Volver");
+			
+			InputStreamVideoclub.pedirCadena();
+			cadena = InputStreamVideoclub.cadena;
+			
+			try{
+				switch(Integer.parseInt(cadena)){
+				case 1: ;break;
+				case 2: ;break;
+				case 3: ;break;
+				case 4: ;break;
+				case 5: mostrarMenuFacturacion();fin = true; break;
+				
+				default: System.out.println("Elija una opción válida");
+				}
+			}catch(NumberFormatException e){
+				System.out.println("Elija una opción válida");
+			}
+		}while(!fin);
+}
+
+
+
+
+
 }

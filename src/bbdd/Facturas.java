@@ -8,29 +8,25 @@ import usuario.*;
 
 public class Facturas {
 	Conexion con = new Conexion();
-	Usuario miUsuario = new Usuario();
 	
 	public Factura buscarFactura(int codigo){
 		Factura fc = null;
 		StringBuilder stb = new StringBuilder("SELECT codigo, precioTotal, fecha, cliente " +
 				"FROM facturas WHERE codigo = " + codigo);
-		
+		ResultSet res = con.consulta(stb.toString());
 		try{
-			ResultSet res = con.consulta(stb.toString());
 			if(res.next()){
 				fc = new Factura();
 				fc.setCodigo(res.getInt("codigo"));
 				fc.setPrecioTotal(res.getDouble("precioTotal"));
 				fc.setFecha(res.getDate("fecha"));
-				Usuario usu = new Usuario();
-				usu.setCodigo(res.getInt("cliente"));
-				fc.setCliente(usu);
+
+				Usuario us = new Usuario();
+				us.setCodigo(res.getInt("cliente"));
+				fc.setCliente(us);
 			}
 		}
 		catch(SQLException e){
-			System.out.println(e.getMessage());
-		}
-		catch(NumberFormatException e){
 			System.out.println(e.getMessage());
 		}
 		finally{
@@ -52,7 +48,10 @@ public class Facturas {
 				fc.setCodigo(res.getInt("codigo"));
 				fc.setPrecioTotal(res.getDouble("precioTotal"));
 				fc.setFecha(res.getDate("fecha"));
-				//fc.setCliente(res.getInt("cliente"));
+
+				Usuario us = new Usuario();
+				us.setCodigo(res.getInt("cliente"));
+				fc.setCliente(us);
 			}
 		}
 		catch(SQLException e){
@@ -68,14 +67,13 @@ public class Facturas {
 		return fc;
 	}
 	
-	public int crearFactura(int cod, double preTota, Date fech, Usuario clie){
+	public int insertarFactura(Factura fac){
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-		String mensaje = "";
-		StringBuilder stb = new StringBuilder("INSERT INTO facturas(codigo, precioTotal, fecha, cliente)" +
-				"VALUES ("+cod+", "+preTota+", '"+df.format(fech)+"',"+ clie.getCodigo()+")");
-		int res = con.insertarUpdate(stb.toString());	
+		int res = con.insertarUpdate("INSERT INTO facturas(codigo, precioTotal, fecha, cliente)" +
+				"VALUES ("+fac.getCodigo()+","+fac.getPrecioTotal()+",'"+df.format(fac.getFecha())+"',"+fac.getCliente()+")");
+	
 		con.cerrarConexion();
-			
 		return res;
-	}
+			
+		}		
 }
