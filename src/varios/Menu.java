@@ -1,11 +1,13 @@
 package varios;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import usuario.Usuario;
 import articulos.Articulo;
 import articulos.ArticuloAlquilado;
 import facturas.*;
+import varios.*;
 
 public class Menu {
 	//Método que muestra el menú principal
@@ -278,9 +280,13 @@ public class Menu {
 		return mensaje;
 	}
 	
+
 	public void mostrarMenuConsultas(){
 		
 	}
+	
+	
+	//**************** FACTURACION ******************
 	
 	public void mostrarMenuFacturacion(){
 		boolean fin = false;
@@ -309,24 +315,143 @@ public class Menu {
 		}while(!fin);
 	}
 	
+	
+	
+	//********************* MENU FACTURA ********************
+	
 	public void menuFactura(){
 		boolean fin = false;
 		String cadena = "";
+		String mensaje = "";
 		
 		do{
-			System.out.println("(1) Crear factura");
-			System.out.println("(2) Consultar factura por mes");
-			System.out.println("(3) Consultar factura entre dos fechas");
-			System.out.println("(4) Volver");
+			System.out.println("(1) Consultar factura por codigo");
+			System.out.println("(2) Consultar factura entre dos fechas");
+			System.out.println("(3) Volver");
 			
 			InputStreamVideoclub.pedirCadena();
 			cadena = InputStreamVideoclub.cadena;
 			Factura fac = new Factura();
 			try{
 				switch(Integer.parseInt(cadena)){
-				case 1: fac.crearFactura();break;
-				case 2: fac.consultaMes();break;
-				case 3: //fac.consultarFechas();break;
+					case 1: {
+						mensaje=menuConsultarFacturaCodigo();
+						if(!mensaje.equals("")){
+							throw new VideoException(mensaje);
+						}
+						break;
+					}
+					case 2: 
+						mensaje=menuConsultarFacturaFechas();
+						if(!mensaje.equals("")){
+							throw new VideoException(mensaje);
+						}
+						break;
+					case 3: mostrarMenuFacturacion();fin = true;
+					break;
+				
+				default: System.out.println("Elija una opción válida");
+				}
+			}catch(NumberFormatException e){
+				System.out.println("Elija una opción válida");
+			}
+			catch(VideoException e){
+				System.out.println(">>>>>>>>> "+e.getMessage()+" <<<<<<<<<<");
+			}
+			
+		}while(!fin);
+	}
+
+	//Este menu lo vamos a utilizar en la consultas de facturas
+	public String menuConsultarFactura(List<Factura> resBusqueda){
+		String mensaje="";
+		if(resBusqueda!=null && resBusqueda.size()>0){
+			for(Factura fac : resBusqueda){
+				System.out.println(fac.fcPantalla());
+				System.out.println("-----------------------------------------------\n");
+			}
+		}else{
+			mensaje="Factura no encontrada";
+		}
+		return mensaje;
+	}
+	
+	public String menuConsultarFacturaCodigo(){
+		String mensaje="";
+		//Solicito el codigo de la factura
+		InputStreamVideoclub.pedirCadena("Introduzca el codigo de la factura: ");
+		String cad = InputStreamVideoclub.cadena;
+		int cod=Integer.parseInt(cad);
+		Factura resBusqueda = new Factura().buscarFactura(cod);
+		
+		System.out.println(resBusqueda.fcPantalla());
+		
+		return mensaje;
+	}
+	
+	public String menuConsultarFacturaFechas(){
+		String mensaje="";
+		Factura fac = new Factura();
+		//Solicito mes, año y la diferencia de meses a buscar
+		InputStreamVideoclub.pedirCadena("Introduzca el mes de las facturas: ");
+		String cad = InputStreamVideoclub.cadena;
+		int mes=Integer.parseInt(cad);
+		
+		InputStreamVideoclub.pedirCadena("Introduzca el año de las facturas: ");
+		String cad2 = InputStreamVideoclub.cadena;
+		int ano=Integer.parseInt(cad2);
+		
+		InputStreamVideoclub.pedirCadena("Introduzca el rango de meses de las facturas: ");
+		String cad3 = InputStreamVideoclub.cadena;
+		int rango=Integer.parseInt(cad3);
+		
+		List<Factura> resBusqueda = new ArrayList();
+		fac.buscarFacturaFechas(mes,ano,rango);
+		/*
+		menuConsultaFactura(resBusqueda);*/
+		return mensaje;
+	}
+	
+		
+	//********************* MENU ALBARAN ********************
+	
+	public void menuAlbaran(){
+		boolean fin = false;
+		String cadena = "";
+		String mensaje="";
+		Albaran al = new Albaran();
+		
+		do{
+			System.out.println("(1) Consultar albaran por codigo");
+			System.out.println("(2) Consultar albaran entre dos fechas");
+			System.out.println("(3) Cancelar un albaran");
+			System.out.println("(4) Volver");
+			
+			InputStreamVideoclub.pedirCadena();
+			cadena = InputStreamVideoclub.cadena;
+			
+			try{
+				switch(Integer.parseInt(cadena)){
+				case 1: 
+					mensaje=menuConsultarAlbaranCodigo();
+					if(!mensaje.equals("")){
+						throw new VideoException(mensaje);
+					}
+					break;
+				
+				case 2: 
+					mensaje=menuConsultarAlbaranFechas();
+					if(!mensaje.equals("")){
+						throw new VideoException(mensaje);
+					}
+				break;
+				
+				case 3: 
+					InputStreamVideoclub.pedirCadena("Introduzca el codigo del albaran a borrar");
+					String cad = InputStreamVideoclub.cadena;
+					int cod=Integer.parseInt(cad);
+					al.cancelarAlbaran(cod);break;
+				
 				case 4: mostrarMenuFacturacion();fin = true; break;
 				
 				default: System.out.println("Elija una opción válida");
@@ -334,41 +459,62 @@ public class Menu {
 			}catch(NumberFormatException e){
 				System.out.println("Elija una opción válida");
 			}
-		}while(!fin);
-}
-
-	public void menuAlbaran(){
-		boolean fin = false;
-		String cadena = "";
-		
-		do{
-			System.out.println("(1) Crear albaran");
-			System.out.println("(2) Consultar albaran por mes");
-			System.out.println("(3) Consultar albaran entre dos fechas");
-			System.out.println("(4) Cancelar un albaran");
-			System.out.println("(5) Volver");
-			
-			InputStreamVideoclub.pedirCadena();
-			cadena = InputStreamVideoclub.cadena;
-			
-			try{
-				switch(Integer.parseInt(cadena)){
-				case 1: ;break;
-				case 2: ;break;
-				case 3: ;break;
-				case 4: ;break;
-				case 5: mostrarMenuFacturacion();fin = true; break;
-				
-				default: System.out.println("Elija una opción válida");
-				}
-			}catch(NumberFormatException e){
-				System.out.println("Elija una opción válida");
+			catch(VideoException e){
+				System.out.println(">>>>>>>>> "+e.getMessage()+" <<<<<<<<<<");
 			}
 		}while(!fin);
-}
+	}
 
+	//Este menu lo vamos a utilizar en la consultas de facturas
+	public String menuConsultarAlbaran(List<Albaran> resBusqueda){
+		String mensaje="";
+		if(resBusqueda!=null && resBusqueda.size()>0){
+			for(Albaran alb : resBusqueda){
+				System.out.println(alb.alPantalla());
+				System.out.println("-----------------------------------------------\n");
+			}
+		}else{
+			mensaje="Factura no encontrada";
+		}
+		return mensaje;
+	}
+	
+	public String menuConsultarAlbaranCodigo(){
+		String mensaje="";
+		//Solicito el codigo de la factura
+		InputStreamVideoclub.pedirCadena("Introduzca el codigo del albaran: ");
+		String cad = InputStreamVideoclub.cadena;
+		int cod=Integer.parseInt(cad);
+		Albaran resBusqueda = new Albaran().buscarAlbaran(cod);
+		
+		System.out.println(resBusqueda.alPantalla());
+		
+		return mensaje;
+		
+	}
 
-
+	public String menuConsultarAlbaranFechas(){
+		String mensaje="";
+		Albaran al = new Albaran();
+		//Solicito mes, año y la diferencia de meses a buscar
+		InputStreamVideoclub.pedirCadena("Introduzca el mes de los albaranes: ");
+		String cad = InputStreamVideoclub.cadena;
+		int mes=Integer.parseInt(cad);
+		
+		InputStreamVideoclub.pedirCadena("Introduzca el año de los albaranes: ");
+		String cad2 = InputStreamVideoclub.cadena;
+		int ano=Integer.parseInt(cad2);
+		
+		InputStreamVideoclub.pedirCadena("Introduzca el rango de meses de los albaranes: ");
+		String cad3 = InputStreamVideoclub.cadena;
+		int rango=Integer.parseInt(cad3);
+		
+		List<Albaran> resBusqueda = new ArrayList();
+		al.buscarAlbaranFechas(mes,ano,rango);
+		/*
+		menuConsultaAlbaran(resBusqueda);*/
+		return mensaje;
+	}
 
 
 }
