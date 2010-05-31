@@ -8,8 +8,8 @@ import usuario.Usuario;
 public abstract class Caja {
 	
 	
-	private int codigo;
-	private double precioTotal;
+	private int codigo=1;
+	private double precioTotal=123;
 	private final double IVA=0.16;
 	private Usuario cliente;
 	private Date fecha;
@@ -65,10 +65,10 @@ public abstract class Caja {
 	}
 	
 	//Consulta en un mes concreto.
-	abstract public List consultar(int mes);
+	//abstract public List consultar(int mes);
 	
 	//Consulta entre dos fechas.
-	abstract public List consultaFechas(String fecha1, String fecha2);
+	//abstract public List consultaFechas(String fecha1, String fecha2);
 	
 	//Consultar mes 
 	public int consultaMes(){

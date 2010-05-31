@@ -1,6 +1,10 @@
 package facturas;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Date;
+import bbdd.Albaranes;
 import bbdd.Facturas;
+import bbdd.Usuarios;
 
 import usuario.Usuario;
 
@@ -30,35 +34,31 @@ public class Factura extends Caja{
 		
 	}
 	
-	public void buscarFactura(int codFa){
-		Facturas bddFa = new Facturas();
-		bddFa.buscarFactura(codFa);
+	public String  fcPantalla ()
+	{		
+		String cadena="";
+		Usuario usu = Usuario.buscaUscod(getCliente().getCodigo());
+		if (usu.getNombre()!=null && usu.getApellidos()!=null){
+			cadena = ("Código         : " + getCodigo() + "\n" +
+					"Precio total    : " + getPrecioTotal() + "\n" +
+					"Fecha        : " + getFecha() + "\n" +
+					"Cliente      : " + usu.getNombre() + " " + usu.getApellidos())+ "\n";
+		}
+		else{
+			cadena = "El usuario no existe";
+		}
+		return cadena;
 	}
 	
-	//Consulta las facturas en un mes concreto
-	public List consultar(int mes){
-		/*for (Factura o : listaFacturas){
-			if (o.consultaMes()==mes){
-					miLista.add(o);
-				}
-		}
-		return miLista;*/
-		return new ArrayList();
+	public Factura buscarFactura(int codFa){
+		return new Facturas().buscarFacturaDatos(codFa);
+	}
+	
+	public List buscarFacturaFechas(int mes,int ano,int rango){
+		List<Factura> listaFactura = new ArrayList();
+		new Facturas().buscarFacturaFechas(mes,ano,rango);
+		return listaFactura;
 	}
 
-	//Consulta las facturas entre dos fechas
-	public List consultaFechas(String fecha1, String fecha2){
-		long f1=convertirFecha(fecha1);
-		long f2=convertirFecha(fecha2);
-		/*for (Factura o : listaFacturas){
-			long ffactura=o.getFecha().getTime();
-			if (ffactura>=f1 && ffactura<=f2)
-			{
-				miLista.add(o);
-			}
-		}
-		return miLista;*/
-		return new ArrayList();
-	}
 }
 	

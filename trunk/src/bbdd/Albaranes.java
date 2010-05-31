@@ -2,54 +2,16 @@ package bbdd;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 import usuario.Usuario;
 import facturas.*;
 
 public class Albaranes {
 	Conexion con = new Conexion();
-	
-	
-	public Albaran buscarAlbaran(int codigo){
-		Albaran al = null;
-			
-		StringBuilder stb = new StringBuilder("SELECT codigo, precioTotal, fecha, cliente, cancelado " +
-				"FROM albaranes WHERE codigo = " + codigo);
-		ResultSet res = con.consulta(stb.toString());
-		try{
-			if(res.next()){
-				al = new Albaran();
-				al.setCodigo(res.getInt("codigo"));
-				al.setPrecioTotal(res.getDouble("precioTotal"));
-				al.setFecha(res.getDate("fecha"));
-				
-				Usuario us = new Usuario();
-				us.setCodigo(res.getInt("cliente"));
-				al.setCliente(us);
-				al.setCancelado(res.getBoolean("cancelado"));
-
-			}
-		}catch(SQLException e){
-			System.out.println(e.getMessage());
-		}
-		catch(NumberFormatException e){
-			System.out.println(e.getMessage());
-		}
-		finally{
-			con.cerrarConexion();
-		}
-		
-		return al;
-	}
-	
-	public Factura buscarAlbaranFechas(String f1 ,String f2){
-		Factura fc = new Factura();
-		long fecha1=fc.convertirFecha(f1);
-		long fecha2=fc.convertirFecha(f2);
-		
-		
-		return fc;
-	}
 	
 	public int insertarAlbaran(Albaran al){
 		String cancelado = "0";
@@ -64,9 +26,77 @@ public class Albaranes {
 		return res;
 	}
 	
-	public int cancelacionAlbaran(Albaran a){
+	public Albaran buscarAlbaranDatos(int codigo){
+		Albaran al = null;
+					
+		ResultSet res = con.consulta("SELECT codigo, precioTotal, fecha, cliente, cancelado " +
+				"FROM albaranes WHERE codigo = " + codigo);
+
+		try{
+			if(res.next()){
+				al = new Albaran();
+				al.setCodigo(res.getInt("codigo"));
+				al.setPrecioTotal(res.getDouble("precioTotal"));
+				al.setFecha(res.getDate("fecha"));
+				
+				Usuario us = new Usuario();
+				us.setCodigo(res.getInt("cliente"));
+				al.setCliente(us);
+				al.setCancelado(res.getBoolean("cancelado"));
+			}
+		}catch(SQLException e){
+			System.out.println(e.getMessage());
+		}
+		catch(NumberFormatException e){
+			System.out.println(e.getMessage());
+		}
+		finally{
+			con.cerrarConexion();
+		}
+		
+		return al;
+	}
+	
+	public List buscarAlbaranFechas(int mes,int año,int rango){
+		Albaran fc = null;
+		List<Albaran> listaAlbaran = new ArrayList();
+		
+		GregorianCalendar aux_gc1=new GregorianCalendar(año,mes-1,1);
+		//Esto lo utilizamos para que no me cambie el valor inicial de gc1
+		GregorianCalendar gc1=aux_gc1;
+		gc1.add(Calendar.MONTH,rango);
+		
+		ResultSet res = con.consulta("SELECT codigo, precioTotal, fecha, cliente, cancelado " +
+				"FROM albaran WHERE fecha>="+gc1+" && fecha<="+gc1);
+		
+		try{
+			while(res.next()){
+				fc = new Albaran();
+				fc.setCodigo(res.getInt("codigo"));
+				fc.setPrecioTotal(res.getDouble("precioTotal"));
+				fc.setFecha(res.getDate("fecha"));
+
+				Usuario us = new Usuario();
+				us.setCodigo(res.getInt("cliente"));
+				fc.setCliente(us);
+				fc.setCancelado(res.getBoolean("cancelado"));
+				listaAlbaran.add(fc);
+			}
+		}
+		catch(SQLException e){
+			System.out.println(e.getMessage());
+		}
+		finally{
+			con.cerrarConexion();
+		}
+		
+		return listaAlbaran;
+	}
+	
+	
+	public int cancelacionAlbaran(int cod){
 		int res = con.insertarUpdate("UPDATE albaranes SET cancelado = '1' WHERE " +
-				"codigo = "+a.getCodigo());
+				"codigo = "+cod);
 		con.cerrarConexion();
 		return res;
 	}
