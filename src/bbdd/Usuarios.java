@@ -12,7 +12,6 @@ public class Usuarios {
 		Usuario usu = null;
 		StringBuilder stb = new StringBuilder("SELECT codigo, nombre, apellidos,dni,direccion,telefono,bloqueado,activo FROM clientes " +
 				"WHERE codigo = "+codigo);
-		System.out.println(stb.toString());
 		ResultSet res = con.consulta(stb.toString());
 		try{
 			if(res.next())
