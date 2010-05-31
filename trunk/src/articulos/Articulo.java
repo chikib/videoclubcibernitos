@@ -2,9 +2,7 @@ package articulos;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import bbdd.Articulos;
 import varios.InputStreamVideoclub;
 import varios.Menu;
@@ -26,7 +24,6 @@ public class Articulo {
 	private String localizacion;
 	private boolean alquilable;
 	
-	public static List<Articulo> listaPeliculas = new ArrayList();
 	public Articulo(){
 		
 	}
@@ -135,7 +132,7 @@ public class Articulo {
 		return alquilable;
 	}
 	
-	public static int buscaArticuloDisponible(int codigo){
+	/*public static int buscaArticuloDisponible(int codigo){
 		int i = 0;
 		for (Articulo articulo : listaPeliculas)
 		{
@@ -148,7 +145,7 @@ public class Articulo {
 		}
 	
 		return -1;
-	}
+	}*/
 	
 	public static Articulo buscaArticulo(int codigo){
 		Articulos artbbdd = new Articulos();
@@ -156,7 +153,7 @@ public class Articulo {
 		return art;
 	}
 	
-	public static int identificarPeliculaDisponible(){
+	/*public static int identificarPeliculaDisponible(){
 		InputStreamVideoclub.pedirCadena("Introduzca el código de barras de la película o 0 para volver al menú anterior: ");
 		String cadena = InputStreamVideoclub.cadena;
 		int codigo;
@@ -181,7 +178,7 @@ public class Articulo {
 			System.out.println(e.getMessage());
 		}
 		return -1;
-	}
+	}*/
 	
 	public static Articulo identificarPelicula(){
 		InputStreamVideoclub.pedirCadena("Introduzca el código de barras de la película o 0 para volver al menú anterior: ");

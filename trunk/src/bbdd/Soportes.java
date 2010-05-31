@@ -8,9 +8,9 @@ import articulos.Soporte;
 
 public class Soportes {
 	
-	public List getSoportes(){
+	public List<Soporte> getSoportes(){
 		Soporte soporte = null;
-		List listaSoportes = new ArrayList();
+		List<Soporte> listaSoportes = new ArrayList<Soporte>();
 		Conexion con = new Conexion();
 		StringBuilder stb = new StringBuilder("select codigo,tipo from soportes order by tipo");
 		try{

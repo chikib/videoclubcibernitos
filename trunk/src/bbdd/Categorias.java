@@ -32,9 +32,9 @@ public class Categorias {
 		return cat;
 	}
 	
-	public List getCategorias(){
+	public List<Categoria> getCategorias(){
 		Categoria categoria = null;
-		List listaCategorias = new ArrayList();
+		List<Categoria> listaCategorias = new ArrayList<Categoria>();
 		Conexion con = new Conexion();
 		StringBuilder stb = new StringBuilder("select codigo,tematica from categorias order by tematica");
 		try{
