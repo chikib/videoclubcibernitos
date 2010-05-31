@@ -1,4 +1,5 @@
 package facturas;
+import bbdd.LineasFactura;
 import articulos.ArticuloAlquilado;
 public class LineaFactura extends Linea{
 	private Factura factura;
@@ -30,8 +31,15 @@ public class LineaFactura extends Linea{
 	}	
 	
 	public String guardar(){
-		
-		return "";
+		String mensaje = "";
+		LineasFactura art = new LineasFactura();
+		int res = art.insertar(this);
+		if(res==0){
+			mensaje = "No se ha podido insertar el artículo";
+		}else{
+			System.out.println("\n******** Artículo insertado *********\n");
+		}
+		return mensaje;
 	}
 }
 	

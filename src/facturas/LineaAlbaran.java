@@ -1,4 +1,5 @@
 package facturas;
+import bbdd.LineasAlbaran;
 import articulos.ArticuloAlquilado;
 public class LineaAlbaran extends Linea {
 	private Albaran albaran;
@@ -20,6 +21,14 @@ public class LineaAlbaran extends Linea {
 	}
 	
 	public String guardar(){
-		return "";
+		String mensaje = "";
+		LineasAlbaran lf = new LineasAlbaran();
+		int res = lf.insertar(this);
+		if(res==0){
+			mensaje = "No se ha podido insertar el artículo";
+		}else{
+			System.out.println("\n******** Artículo insertado *********\n");
+		}
+		return mensaje;
 	}
 }
