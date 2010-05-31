@@ -406,9 +406,9 @@ public class Menu {
 		int rango=Integer.parseInt(cad3);
 		
 		List<Factura> resBusqueda = new ArrayList();
-		fac.buscarFacturaFechas(mes,ano,rango);
-		/*
-		menuConsultaFactura(resBusqueda);*/
+		resBusqueda=fac.buscarFacturaFechas(mes,ano,rango);
+		
+		mensaje=menuConsultarFactura(resBusqueda);
 		return mensaje;
 	}
 	
@@ -510,9 +510,9 @@ public class Menu {
 		int rango=Integer.parseInt(cad3);
 		
 		List<Albaran> resBusqueda = new ArrayList();
-		al.buscarAlbaranFechas(mes,ano,rango);
-		/*
-		menuConsultaAlbaran(resBusqueda);*/
+		resBusqueda=al.buscarAlbaranFechas(mes,ano,rango);
+		
+		mensaje=menuConsultarAlbaran(resBusqueda);
 		return mensaje;
 	}
 
