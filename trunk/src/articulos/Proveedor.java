@@ -53,7 +53,7 @@ public class Proveedor {
 				this.fax = faxentrada;
 			} else {
 				throw new VideoException(
-						"No se ha cursado el alta del proveedor, faltan datos. Se debe inroducir como minimo el nombre, el cif y la direccion");
+						"No se ha cursado el alta del proveedor, faltan datos. Se debe introducir como minimo el nombre, el cif y la direccion");
 			}
 		} catch (VideoException e) {
 			System.out.println(e.toString());
@@ -61,7 +61,6 @@ public class Proveedor {
 	}
 
 	// Preparamos los get-set de los atributos privados
-
 	public void setCodigo(int codigo) {
 		this.codigo = codigo;
 	}
@@ -119,95 +118,37 @@ public class Proveedor {
 	}
 
 	// Creamos un metodo para dar de alta un objeto
-
-	public void crearAlta(int cod1, String nom1, String ci1, String telefono1,
-			String dir1, String web1, String fa1) {
-		// Para dar de alta un objeto "proveedor" necesitamos como mínimo su
-		// cif, su nombre fiscal y su direccion, sino no se cursa el alta.
-
-		if ((ci1.length() > 0) && (dir1.length() > 0) && (nom1.length() > 0)) {
-			codigo = cod1;
-			nombre = nom1;
-			cif = ci1;
-			telefono = telefono1;
-			direccion = dir1;
-			web = web1;
-			fax = fa1;
-		} else {
-			System.out
-					.println("No se ha cursado el alta del proveedor, faltan datos. Se debe inroducir como minimo el nombre, el cif y la direccion");
+	public String crearProveedor() {
+		String mensaje = "";
+		int res = new Proveedores().crearProveedor(this);
+		if(res==0){
+			mensaje = "Ha ocurrido un error al insertar en base de datos";
 		}
+		return mensaje;
+	}
+	
+	public String editarProveedor() {
+		String mensaje = "";
+		int res = new Proveedores().modificarProveedor(this);
+		if(res==0){
+			mensaje = "Ha ocurrido un error al modificar en base de datos";
+		}
+		return mensaje;
 	}
 
 	// Este metodo devuelve los datos que tenemos del proveedor.
-
-	public void ObtenerDatos() {
-		System.out.println("Nombre del proveedor: " + nombre
-				+ "Codigo del proveedor: " + codigo);
-		System.out.println("Direccion : " + direccion);
-		System.out.println("Cif del proveedor :" + cif);
-		System.out.println("Telefono de contacto :" + telefono + "Fax :" + fax);
-		System.out.println("Pagina Web del proveedor :" + web);
+	public void obtenerDatos() {
+		System.out.println("(1) Nombre del proveedor: " + nombre);
+		System.out.println("(2) Direccion : " + (direccion==null?"eoeo":direccion));
+		System.out.println("(3) Cif del proveedor :" + cif);
+		System.out.println("(4) Telefono de contacto :" + (telefono==null?"":telefono));
+		System.out.println("(5) Fax :" + (fax==null?"eoeo":fax));
+		System.out.println("(6) Pagina Web del proveedor :" + (web==null?"eoeo":web));
 		return;
 	}
-
-	public void AltaProveedor(String cifentrada) {
-		// Solicitamos SOLO el cif para ver si existe o no, este proveedor.
-
-		if (cifentrada.length() > 0) {
-			Iterator<Proveedor> it = listaProveedores.iterator();
-			boolean enc = false;
-			Proveedor prov = null;
-			while (it.hasNext() && !enc)// (obtenerDatos(it) !=cifentrada)
-			{
-				prov = (Proveedor) it.next();
-				if (prov.cif == cifentrada) {
-					enc = true;
-				}
-			}
-			try {
-				if (enc) {
-					throw new VideoException("Este proveedor ya existe");
-				} else {
-					// falta hacer el alta del proveedor.
-				}
-			} catch (VideoException e) {
-
-			}
-		}
-	}
 	
-	public void rellenarProveedor(){
-		String cadena = "";
-		System.out.println (" Introducir el nombre: ");
-		InputStreamVideoclub.pedirCadena();
-		cadena = InputStreamVideoclub.cadena;
-		setNombre(cadena);
-		
-		System.out.println (" Introducir el CIF: ");
-		InputStreamVideoclub.pedirCadena();
-		cadena = InputStreamVideoclub.cadena;
-		setCif(cadena);
-		
-		System.out.println (" Introducir el teléfono: ");
-		InputStreamVideoclub.pedirCadena();
-		cadena = InputStreamVideoclub.cadena;
-		setTelefono(cadena);
-		
-		System.out.println (" Introducir el fax: ");
-		InputStreamVideoclub.pedirCadena();
-		cadena = InputStreamVideoclub.cadena;
-		setFax(cadena);
-		
-		System.out.println (" Introducir la dirección: ");
-		InputStreamVideoclub.pedirCadena();
-		cadena = InputStreamVideoclub.cadena;
-		setDireccion(cadena);
-		
-		System.out.println (" Introducir la web: ");
-		InputStreamVideoclub.pedirCadena();
-		cadena = InputStreamVideoclub.cadena;
-		setWeb(cadena);
+	public Proveedor consultarProveedor(String cif){
+		return new Proveedores().buscarProveedorCif(cif);
 	}
 	
 	public void imprimirProveedores(){

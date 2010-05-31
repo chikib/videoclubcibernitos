@@ -6,6 +6,7 @@ import java.util.List;
 import usuario.Usuario;
 import articulos.Articulo;
 import articulos.ArticuloAlquilado;
+import articulos.Proveedor;
 import facturas.*;
 import varios.*;
 
@@ -515,6 +516,200 @@ public class Menu {
 		mensaje=menuConsultarAlbaran(resBusqueda);
 		return mensaje;
 	}
-
+	
+	public void mostrarMenuProveedores(){
+		boolean fin = false;
+		String cadena = "";
+		
+		do{
+			System.out.println("(1) Crear proveedor");
+			System.out.println("(2) Modificar proveedor");
+			System.out.println("(3) Eliminar proveedor");
+			System.out.println("(4) Volver");
+			
+			InputStreamVideoclub.pedirCadena();
+			cadena = InputStreamVideoclub.cadena;
+			try{
+				switch(Integer.parseInt(cadena)){
+				case 1: {
+					String mensaje = menuAltaProveedor();
+					if(!mensaje.equals("")){
+						throw new VideoException(mensaje);
+					}
+					break;
+				}
+				case 2: menuEditarProveedor();break;
+				case 3: break;
+				case 4: fin = true; break;
+				
+				default: System.out.println("Elija una opción válida");
+				}
+			}catch(NumberFormatException e){
+				System.out.println("Elija una opción válida");
+			}catch(VideoException e){
+				System.out.println(e.getMessage());
+			}
+		}while(!fin);
+	}
+	
+	public String menuAltaProveedor(){
+		String mensaje = "";
+		InputStreamVideoclub.pedirCadena("Indique el CIF del proveedor que desea insertar");
+		String cif = InputStreamVideoclub.cadena;
+		Proveedor prov = new Proveedor().consultarProveedor(cif);
+		if(prov!=null){
+			mensaje = "El proveedor ya existe en la base de datos";
+		}else{
+			prov = rellenarProveedor();
+			mensaje = prov.crearProveedor();
+			if(mensaje.equals("")){
+				System.out.println("**** Proveedor insertado correctamente ****");
+			}
+		}
+		return mensaje;
+	}
+	
+	public String menuEditarProveedor(){
+		String mensaje = "";
+		InputStreamVideoclub.pedirCadena("Indique el CIF del proveedor que desea modificar");
+		String cif = InputStreamVideoclub.cadena;
+		Proveedor prov = new Proveedor().consultarProveedor(cif);
+		if(prov==null){
+			mensaje = "El proveedor indicado no existe en la base de datos";
+		}else{
+			System.out.println("Los datos que puede modificar son:");
+			prov.obtenerDatos();
+			prov = rellenarEditarProveedor(prov);
+			mensaje = prov.editarProveedor();
+			if(mensaje.equals("")){
+				System.out.println("**** Proveedor actualizado correctamente ****");
+			}
+		}
+		return mensaje;
+	}
+	
+	public Proveedor rellenarProveedor(){
+		Proveedor prov = new Proveedor();
+		String cadena = "";
+		boolean vacio = false;
+		do{
+			InputStreamVideoclub.pedirCadena(" Introducir el nombre (*): ");
+			cadena = InputStreamVideoclub.cadena;
+			if(cadena.equals("")){
+				vacio = true;
+				System.out.println("El campo nombre es obligatorio");
+			}else{
+				prov.setNombre(cadena);
+				vacio = false;
+			}
+		}while(vacio);
+		
+		vacio = false;
+		do{
+			InputStreamVideoclub.pedirCadena(" Introducir el CIF (*): ");
+			cadena = InputStreamVideoclub.cadena;
+			if(cadena.equals("")){
+				vacio = true;
+			}else{
+				prov.setCif(cadena);
+			}
+		}while(vacio);
+		
+		InputStreamVideoclub.pedirCadena(" Introducir el teléfono: ");
+		cadena = InputStreamVideoclub.cadena;
+		prov.setTelefono(cadena);
+		
+		InputStreamVideoclub.pedirCadena(" Introducir el fax: ");
+		cadena = InputStreamVideoclub.cadena;
+		prov.setFax(cadena);
+		
+		InputStreamVideoclub.pedirCadena(" Introducir la dirección: ");
+		cadena = InputStreamVideoclub.cadena;
+		prov.setDireccion(cadena);
+		
+		InputStreamVideoclub.pedirCadena(" Introducir la web: ");
+		cadena = InputStreamVideoclub.cadena;
+		prov.setWeb(cadena);
+		
+		return prov;
+	}
+	
+	public Proveedor rellenarEditarProveedor(Proveedor prov){
+		boolean fin = false;
+		boolean vacio = false;
+		String cadena = "";	
+		do
+		{	
+			InputStreamVideoclub.pedirCadena("Introduzca el número asociado al campo que desea modificar o 7 para terminar");
+			cadena = InputStreamVideoclub.cadena;
+			try{
+				switch(Integer.parseInt(cadena))
+				{
+					case 1: {
+						vacio = false;
+						do{
+							InputStreamVideoclub.pedirCadena("(1) Introducir nombre (*) : ");
+							cadena = InputStreamVideoclub.cadena;
+							if(cadena.equals("")){
+								System.out.println("El campo nombre no puede estar vacío");
+								vacio = true;
+							}else{
+								prov.setNombre(cadena);
+								vacio = false;
+							}
+						}while(vacio);
+						break;
+					}
+					case 2: {
+						vacio = false;
+						do{
+							InputStreamVideoclub.pedirCadena("(2) Introducir cif : ");
+							cadena = InputStreamVideoclub.cadena;
+							if(cadena.equals("")){
+								System.out.println("El campo nombre no puede estar vacío");
+								vacio = false;
+							}else{
+								prov.setCif(cadena);
+								vacio = false;
+							}
+						}while(vacio);
+						break;	
+					}
+					case 3:
+						InputStreamVideoclub.pedirCadena("(3) Introducir telefono : ");
+						cadena = InputStreamVideoclub.cadena;
+						prov.setTelefono(cadena);
+						break;
+					case 4:
+						InputStreamVideoclub.pedirCadena("(4) Introducir dirección : ");
+						cadena = InputStreamVideoclub.cadena;
+						prov.setDireccion(cadena);
+						break;
+					case 5 :
+						InputStreamVideoclub.pedirCadena("(5) Introducir web : ");
+						cadena = InputStreamVideoclub.cadena;
+						prov.setWeb(cadena);
+						break;
+					case 6 :
+						InputStreamVideoclub.pedirCadena("(6) Introducir fax : ");
+						cadena = InputStreamVideoclub.cadena;
+						prov.setFax(cadena);
+						break;
+					case 7 :
+						fin=true;
+						break;
+					default: System.out.println("Elija una opción válida");
+												
+				}
+			}catch(NumberFormatException e)
+			{
+				System.out.println("Elija una opción válida");
+				prov.editarProveedor();
+			}
+						
+		}while(!fin ); 
+		return prov;
+		
+	}
 
 }
