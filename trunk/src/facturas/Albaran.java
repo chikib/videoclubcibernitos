@@ -1,10 +1,15 @@
 package facturas;
 import java.util.*;
 
+import bbdd.Albaranes;
+import bbdd.Facturas;
+
 import usuario.Usuario;
 
 public class Albaran extends Caja {
 	private boolean cancelado;
+	Albaranes miAlbaran = new Albaranes();
+	
 	public Albaran(int cod, double preTot, Date fech, Usuario cliente, boolean cancel){
 		super (cod, preTot, fech, cliente);
 		setCancelado(cancel);
@@ -22,7 +27,25 @@ public class Albaran extends Caja {
 		this.cancelado = cancel;
 	}
 
+	public String crearAlbaran(){
+		String mensaje="";
+		int res=miAlbaran.insertarAlbaran(this);
+		
+		if (res==0){
+			mensaje="No se ha podido crear la factura";
+		}
+		else{
+			System.out.println("\n******** Factura creada *********\n");
+			
+		}
+		return mensaje;
+		
+	}
 	
+	public void buscarAlbaran(int codAl){
+		Albaranes bddAl = new Albaranes();
+		bddAl.buscarAlbaran(codAl);
+	}
 	
 	//Consulta los albaranes en un mes concreto
 	public List consultar(int mes){
@@ -38,9 +61,11 @@ public class Albaran extends Caja {
 	
 	//Consulta los albaranes entre dos fechas
 	public List consultaFechas(String fecha1, String fecha2){
-		/*long f1=convertirFecha(fecha1);
-		long f2=convertirFecha(fecha2);
-		for (Albaran o : listaAlbaranes){
+		miAlbaran.buscarAlbaranFechas(fecha1,fecha2);
+		
+		
+		
+		/*for (Albaran o : listaAlbaranes){
 			long ffactura=o.getFecha().getTime();
 			if (ffactura>=f1 && ffactura<=f2)
 			{
@@ -48,7 +73,25 @@ public class Albaran extends Caja {
 			}
 		}
 		return miLista;*/
+	
+		
 		return new ArrayList();
+	}
+	
+	public String cancelarAlbaran()
+	{
+		String mensaje="";
+		int res=miAlbaran.cancelacionAlbaran(this);
+		
+		if (res==0){
+			mensaje="No se ha podido cancelar el albaran";
+		}
+		else{
+			System.out.println("\n******** Albarán cancelado *********\n");
+			
+		}
+		return mensaje;
+		
 	}
 
 
