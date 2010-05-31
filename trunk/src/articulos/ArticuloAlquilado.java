@@ -117,9 +117,9 @@ public class ArticuloAlquilado {
 		return tiempo;
 	}
 	
-	public static List alquilar(int cantidad){
+	public static List<String> alquilar(int cantidad){
 		String mensaje = "";
-		List listaMensajes = new ArrayList();
+		List<String> listaMensajes = new ArrayList<String>();
 		//Identifico al usuario
 		Usuario usuario = Usuario.identificarUsuario();
 		//Creo el albarán
@@ -155,6 +155,7 @@ public class ArticuloAlquilado {
 								albaran.setPrecioTotal(albaran.getPrecioTotal()+artAlq.getPrecio());
 								//crear la línea de albarán
 								LineaAlbaran linea = new LineaAlbaran(0, artAlq.getPrecio(), artAlq, albaran);
+								linea.guardar();
 								mensaje = linea.guardar();
 								if(mensaje.equals("")){
 									System.out.println("*** Artículo alquilado ***\n");
@@ -184,11 +185,11 @@ public class ArticuloAlquilado {
 		return listaMensajes;
 	}
 	
-	public static List gestionDevolver(int cantidad){
+	public static List<String> gestionDevolver(int cantidad){
 		String mensaje = "";
 		//Identifico al usuario
 		Usuario usuario = Usuario.identificarUsuario();
-		List listaMensajes = new ArrayList();
+		List<String> listaMensajes = new ArrayList<String>();
 		if(usuario!=null){
 			Factura factura = new Factura(0,0,new Date(),usuario);
 			//Devuelvo cada artículo
@@ -252,20 +253,4 @@ public class ArticuloAlquilado {
 		}
 		return listaMensajes;
 	}
-	
-	/*public static int generarCodigo(){
-		if(listaPeliculasAlquiladas.size()>0){
-			return listaPeliculasAlquiladas.get(listaPeliculasAlquiladas.size()-1).getCodigo()+1;
-		}
-		return 1;
-	}*/
-	
-	/*public static ArticuloAlquilado buscar(Usuario usuario, Articulo articulo){
-		for(ArticuloAlquilado artAlq: listaPeliculasAlquiladas){
-			if(artAlq.getArticulo().equals(articulo) && artAlq.getCliente().equals(usuario)){
-				return artAlq;
-			}
-		}
-		return null;
-	}*/
 }
