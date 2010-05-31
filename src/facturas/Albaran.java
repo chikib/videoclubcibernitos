@@ -1,9 +1,6 @@
 package facturas;
 import java.util.*;
-
 import bbdd.Albaranes;
-import bbdd.Facturas;
-
 import usuario.Usuario;
 
 public class Albaran extends Caja {

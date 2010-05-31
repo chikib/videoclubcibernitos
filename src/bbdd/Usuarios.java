@@ -33,9 +33,9 @@ public class Usuarios {
 		return usu;
 	}
 	
-	public List buscarUsuarioDatos(String nombre, String apellidos, String dni){
+	public List<Usuario> buscarUsuarioDatos(String nombre, String apellidos, String dni){
 		Conexion con = new Conexion();
-		List resultado = new ArrayList();
+		List<Usuario> resultado = new ArrayList<Usuario>();
 		ResultSet res = con.consulta("select codigo, nombre, apellidos, dni, direccion,telefono,bloqueado,activo from clientes where upper(nombre) " +
 		"like '%" + nombre.toUpperCase() + "%' and upper(apellidos) like '%" + apellidos.toUpperCase() + "%' and upper(dni) " +
 				"like '%" + dni.toUpperCase() + "%'");

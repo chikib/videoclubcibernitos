@@ -7,9 +7,9 @@ import java.util.List;
 import articulos.Proveedor;
 public class Proveedores {
 	
-	public List getProveedores(){
+	public List<Proveedor> getProveedores(){
 		Proveedor proveedor = null;
-		List listaProveedores = new ArrayList();
+		List<Proveedor> listaProveedores = new ArrayList<Proveedor>();
 		Conexion con = new Conexion();
 		StringBuilder stb = new StringBuilder("select codigo,nombre,cif,telefono,direccion,web,fax from proveedores order by nombre");
 		try{

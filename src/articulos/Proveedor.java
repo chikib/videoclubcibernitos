@@ -17,7 +17,7 @@ import varios.VideoException;
 public class Proveedor {
 
 	// Atributos
-	public static List listaProveedores;
+	public static List<Proveedor> listaProveedores;
 	private int codigo;
 	private String nombre;
 	private String cif;
@@ -27,7 +27,7 @@ public class Proveedor {
 	private String fax;
 
 	static {
-		listaProveedores = new ArrayList();
+		listaProveedores = new ArrayList<Proveedor>();
 	}
 
 	// Aqui creamos un constructor
@@ -155,7 +155,7 @@ public class Proveedor {
 		// Solicitamos SOLO el cif para ver si existe o no, este proveedor.
 
 		if (cifentrada.length() > 0) {
-			Iterator it = listaProveedores.iterator();
+			Iterator<Proveedor> it = listaProveedores.iterator();
 			boolean enc = false;
 			Proveedor prov = null;
 			while (it.hasNext() && !enc)// (obtenerDatos(it) !=cifentrada)

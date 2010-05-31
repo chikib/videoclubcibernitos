@@ -171,7 +171,7 @@ public class Usuario {
 				
 	}	
 	
-	public List buscaUs(String nombre, String apellidos, String dni)
+	public List<Usuario> buscaUs(String nombre, String apellidos, String dni)
 	{
 		return new Usuarios().buscarUsuarioDatos(nombre, apellidos, dni);	
 	}

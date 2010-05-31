@@ -1,7 +1,5 @@
 package facturas;
 import java.util.*;
-
-import bbdd.Albaranes;
 import bbdd.Facturas;
 
 import usuario.Usuario;
