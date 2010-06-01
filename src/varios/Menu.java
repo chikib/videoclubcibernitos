@@ -247,6 +247,9 @@ public class Menu {
 		Usuario usu = new Usuario();
 		String mensaje = usu.rellenaUsuario();
 		if(mensaje.equals("")){
+			if(usu.buscaUs(usu.getDni()).size()>0){
+				return "Ya existe un usuario con ese dni";
+			}
 			return usu.altaUsuario();
 		}
 		return mensaje;
@@ -314,7 +317,7 @@ public class Menu {
 		List<Usuario> resBusqueda = new Usuario().buscaUs(nombre, apellidos, dni);
 		
 		if(resBusqueda!=null && resBusqueda.size()>0){
-			System.out.println("\nSe ha encontrado "+resBusqueda.size()+" usuarios:");
+			System.out.println("\nSe ha encontrado "+resBusqueda.size()+" usuario(s):");
 			System.out.println("-----------------------------------------------");
 			for(Usuario usu:resBusqueda){
 				System.out.println(usu.usPantalla());
@@ -721,24 +724,24 @@ public class Menu {
 						break;	
 					}
 					case 3:
-						InputStreamVideoclub.pedirCadena("(3) Introducir telefono : ");
-						cadena = InputStreamVideoclub.cadena;
-						prov.setTelefono(cadena);
-						break;
-					case 4:
 						InputStreamVideoclub.pedirCadena("(4) Introducir dirección : ");
 						cadena = InputStreamVideoclub.cadena;
 						prov.setDireccion(cadena);
 						break;
-					case 5 :
-						InputStreamVideoclub.pedirCadena("(5) Introducir web : ");
+					case 4:
+						InputStreamVideoclub.pedirCadena("(3) Introducir telefono : ");
 						cadena = InputStreamVideoclub.cadena;
-						prov.setWeb(cadena);
+						prov.setTelefono(cadena);
 						break;
-					case 6 :
+					case 5 :
 						InputStreamVideoclub.pedirCadena("(6) Introducir fax : ");
 						cadena = InputStreamVideoclub.cadena;
 						prov.setFax(cadena);
+						break;
+					case 6 :
+						InputStreamVideoclub.pedirCadena("(5) Introducir web : ");
+						cadena = InputStreamVideoclub.cadena;
+						prov.setWeb(cadena);
 						break;
 					case 7 :
 						fin=true;

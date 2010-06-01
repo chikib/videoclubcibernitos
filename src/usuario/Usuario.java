@@ -114,30 +114,8 @@ public class Usuario {
 			InputStreamVideoclub.pedirCadena("Introducir Teléfono : ");
 			cadena = InputStreamVideoclub.cadena;
 			setTelefono(cadena);
-			
-			boolean error = false;
-			do{
-				InputStreamVideoclub.pedirCadena("Introducir el valor de Usuario activo (1 para cierto y 0 para falso) : ");
-				cadena = InputStreamVideoclub.cadena;
-				if(!cadena.equals("1") && !cadena.equals("0")){
-					error = true;
-				}else{
-					error = false;
-					setActivo(Boolean.parseBoolean(cadena));
-				}
-			}while(error);
-			
-			error = false;
-			do{
-				InputStreamVideoclub.pedirCadena("Introducir el valor de Bloqueado (1 para cierto y 0 para falso): ");
-				cadena = InputStreamVideoclub.cadena;
-				if(!cadena.equals("1") && !cadena.equals("0")){
-					error = true;
-				}else{
-					error = false;
-					setBloqueado(Boolean.parseBoolean(cadena));
-				}
-			}while(error);
+			setActivo(true);
+			setBloqueado(false);
 		}
 		catch(NumberFormatException e)
 		{
@@ -153,7 +131,7 @@ public class Usuario {
 		if(res==0){
 			mensaje = "No se ha podido insertar el artículo";
 		}else{
-			System.out.println("\n******** Usuarios insertado *********\n");
+			System.out.println("\n******** Usuario insertado *********\n");
 		}
 		return mensaje;
 	}
@@ -166,8 +144,8 @@ public class Usuario {
 		"Dni            : " + dni + "\n" +
 		"Dirección      : " + direccion + "\n" +
 		"Telefono       : " + telefono + "\n" +
-		"Usuario activo : " + activo + "\n" +
-		"Bloqueado      : " + bloqueado);
+		"Usuario activo : " + (activo?"Sí":"No") + "\n" +
+		"Bloqueado      : " + (bloqueado?"Sí":"No"));
 				
 	}	
 	
@@ -176,16 +154,13 @@ public class Usuario {
 		return new Usuarios().buscarUsuarioDatos(nombre, apellidos, dni);	
 	}
 	
+	public List<Usuario> buscaUs(String dni)
+	{
+		return new Usuarios().buscarUsuarioDatos(dni);	
+	}
+	
 	
 	public void mostrarCamposUsuario(){
-		String activo = "0";
-		if(isActivo()){
-			activo = "1";
-		}
-		String bloqueado = "0";
-		if(isBloqueado()){
-			bloqueado = "1";
-		}
 		System.out.println("La lista de campos que se pueden modificar son: ");
 		System.out.println ("-----------------------------------");
 		System.out.println ("(1) Nombre : "+getNombre());
@@ -193,8 +168,8 @@ public class Usuario {
 		System.out.println ("(3) Dni : "+getDni());
 		System.out.println ("(4) Dirección : "+getDireccion());
 		System.out.println ("(5) Telefono : "+getTelefono());
-		System.out.println ("(6) Usuario activo : "+activo);
-		System.out.println ("(7) Bloqueado : "+bloqueado);
+		System.out.println ("(6) Usuario activo : "+(isActivo()?"Sí":"No"));
+		System.out.println ("(7) Bloqueado : "+(isBloqueado()?"Sí":"No"));
 		System.out.println ("(8) Salir ");
 		System.out.println ("-----------------------------------");
 	}
