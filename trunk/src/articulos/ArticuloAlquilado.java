@@ -133,7 +133,7 @@ public class ArticuloAlquilado {
 		albaran.setCancelado(false);
 		List<LineaAlbaran> lineas = new ArrayList<LineaAlbaran>();
 		//Identifico la película
-		if(usuario!=null){
+		if(usuario!=null && !usuario.isBloqueado()){
 			for(int i=0;i!=cantidad;i++){
 				Articulo articulo = Articulo.identificarPelicula();
 				if(articulo!=null && !articulo.isAlquilado() && articulo.isAlquilable()){
@@ -188,17 +188,19 @@ public class ArticuloAlquilado {
 			//Guardar en bbdd el albarán
 			int res = new Albaranes().insertarAlbaran(albaran);
 			if(res==1){
-				albaran.setCodigo(new Albaranes().consultaUltimoCodigo());
+				int codigo = new Albaranes().consultaUltimoCodigo();
+				albaran.setCodigo(codigo);
 				//Guardo las líneas
 				for(LineaAlbaran linea:lineas){
 					linea.setAlbaran(albaran);
 					new LineasAlbaran().insertar(linea);
 				}
+				System.out.println("Se ha asociado el albarán "+codigo+" y el precio es "+albaran.getPrecioTotal());
 			}else{
 				listaMensajes.add("Ha ocurrido un error al crear la factura");
 			}
 		}else{
-			listaMensajes.add("Ha habido un error al identificar el usuario");
+			listaMensajes.add("No se ha podido identificar el usuario o está bloqueado");
 		}
 		return listaMensajes;
 	}
@@ -213,6 +215,7 @@ public class ArticuloAlquilado {
 			factura.setFecha(new Date());
 			factura.setCliente(usuario);
 			List<LineaFactura> lineas = new ArrayList<LineaFactura>();
+			int totalRecargo= 0;
 			//Devuelvo cada artículo
 			for(int i=0;i!=cantidad;i++){
 				//Identifico la película
@@ -235,12 +238,14 @@ public class ArticuloAlquilado {
 								//Creo la factura y calculo si hay recargo
 								Date fechaAlquiler = articuloDev.fechaAlquiler;
 								int tiempoAlquiler = articuloDev.tiempo;
-								int recargo=articuloDev.getRecargo();
+								int recargo = 0;
 								double precio = articuloDev.getPrecio();
 								GregorianCalendar gc = new GregorianCalendar();
 								gc.setTime(fechaAlquiler);
 								gc.add(Calendar.DAY_OF_YEAR, tiempoAlquiler);
 								if(new Date().after(gc.getTime())){
+									recargo=articuloDev.getRecargo();
+									totalRecargo +=recargo;
 									precio += precio*(recargo/100);
 								}
 								factura.setPrecioTotal(factura.getPrecioTotal()+precio);
@@ -271,18 +276,22 @@ public class ArticuloAlquilado {
 					listaMensajes.add("El artículo no existe o no está alquilado");
 				}
 			}
-			//Guardar en bbdd la factura
-			int res = new Facturas().insertarFactura(factura);
-			if(res==1){
-				factura.setCodigo(new Facturas().consultaUltimoCodigo());
-				
-				//Guardo las líneas
-				for(LineaFactura linea:lineas){
-					linea.setFactura(factura);
-					new LineasFactura().insertar(linea);
+			if(lineas.size()>0){
+				//Guardar en bbdd la factura
+				int res = new Facturas().insertarFactura(factura);
+				if(res==1){
+					int codigo = new Facturas().consultaUltimoCodigo();
+					factura.setCodigo(codigo);
+					
+					//Guardo las líneas
+					for(LineaFactura linea:lineas){
+						linea.setFactura(factura);
+						new LineasFactura().insertar(linea);
+					}
+					System.out.println("Se ha asociado la factura "+codigo+" y el recargo es: "+totalRecargo);
+				}else{
+					listaMensajes.add("Ha ocurrido un error al crear la factura");
 				}
-			}else{
-				listaMensajes.add("Ha ocurrido un error al crear la factura");
 			}
 		}else{
 			listaMensajes.add("El usuario no ha sido encontrado");

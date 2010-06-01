@@ -60,6 +60,34 @@ public class Usuarios {
 		return resultado;
 	}
 	
+	public List<Usuario> buscarUsuarioDatos(String dni){
+		Conexion con = new Conexion();
+		List<Usuario> resultado = new ArrayList<Usuario>();
+		ResultSet res = con.consulta("select codigo, nombre, apellidos, dni, direccion,telefono,bloqueado,activo " +
+				"from clientes where upper(dni) " +
+				"like '%" + dni.toUpperCase() + "%'");
+		Usuario usu = new Usuario();
+		try{
+			while(res.next()){
+				usu = new Usuario();
+				usu.setCodigo(res.getInt("codigo"));
+				usu.setNombre(res.getString("nombre"));
+				usu.setApellidos(res.getString("apellidos"));
+				usu.setDni(res.getString("dni"));
+				usu.setDireccion(res.getString("direccion"));
+				usu.setTelefono(res.getString("telefono"));
+				usu.setBloqueado(res.getBoolean("bloqueado"));
+				usu.setActivo(res.getBoolean("activo"));
+				resultado.add(usu);
+			}
+		}catch(SQLException e){
+			System.out.println(e.getMessage());
+		}finally{
+			con.cerrarConexion();
+		}
+		return resultado;
+	}
+	
 	public int insertar(Usuario usu){
 		Conexion con = new Conexion();
 		String bloqueado = "0";

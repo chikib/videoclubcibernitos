@@ -139,11 +139,11 @@ public class Proveedor {
 	// Este metodo devuelve los datos que tenemos del proveedor.
 	public void obtenerDatos() {
 		System.out.println("(1) Nombre del proveedor: " + nombre);
-		System.out.println("(2) Direccion : " + (direccion==null?"eoeo":direccion));
-		System.out.println("(3) Cif del proveedor :" + cif);
-		System.out.println("(4) Telefono de contacto :" + (telefono==null?"":telefono));
-		System.out.println("(5) Fax :" + (fax==null?"eoeo":fax));
-		System.out.println("(6) Pagina Web del proveedor :" + (web==null?"eoeo":web));
+		System.out.println("(2) Cif del proveedor :" + cif);
+		System.out.println("(3) Direccion : " + (direccion.equals("null")?"":direccion));
+		System.out.println("(4) Telefono de contacto :" + (telefono.equals("null")?"":telefono));
+		System.out.println("(5) Fax :" + (fax.equals("null")?"":fax));
+		System.out.println("(6) Pagina Web del proveedor :" + (web.equals("null")?"":web));
 		return;
 	}
 	

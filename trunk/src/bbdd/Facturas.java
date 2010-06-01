@@ -16,7 +16,7 @@ public class Facturas {
 	public int insertarFactura(Factura fac){
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		int res = con.insertarUpdate("INSERT INTO facturas(codigo, precioTotal, fecha, cliente)" +
-				"VALUES ("+fac.getCodigo()+","+fac.getPrecioTotal()+",'"+df.format(fac.getFecha())+"',"+fac.getCliente()+")");
+				"VALUES ("+fac.getCodigo()+","+fac.getPrecioTotal()+",'"+df.format(fac.getFecha())+"',"+fac.getCliente().getCodigo()+")");
 	
 		con.cerrarConexion();
 		return res;

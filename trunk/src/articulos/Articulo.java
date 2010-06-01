@@ -270,20 +270,6 @@ public class Articulo {
 	}	
 	
 	public void menuMostrarCampos(){
-		String sNovedad = "0";
-		if(isNovedad()){
-			sNovedad = "1";
-		}
-		
-		String sAlquilado = "0";
-		if(isAlquilado()){
-			sAlquilado = "1";
-		}
-		
-		String sAlquilable = "0";
-		if(isAlquilable()){
-			sAlquilable = "1";
-		}
 		
 		System.out.println("La lista de campos son: ");
 		System.out.println("(1) Título: "+getTitulo());
@@ -295,13 +281,13 @@ public class Articulo {
 		System.out.println("(5) Proveedor: "+getProveedor().getCodigo());
 		new Proveedor().imprimirProveedores();
 		System.out.println("(6) Precio de alquiler: "+getPrecioAlquiler());
-		System.out.println("(7) Alquilado: "+sAlquilado);
+		System.out.println("(7) Alquilado: "+(isAlquilado()?"Sí":"No"));
 		System.out.println("(8) Fecha de compra: "+getFechaCompra());
 		System.out.println("(9) Precio de compra: "+getPrecioCompra());
-		System.out.println("(10) Novedad: "+sNovedad);
+		System.out.println("(10) Novedad: "+(isNovedad()?"Sí":"No"));
 		System.out.println("(11) Localización: "+getLocalizacion());
 		System.out.println("(12) Código de barras: "+getCodigoBarras());
-		System.out.println("(13) Alquilable: "+sAlquilable);
+		System.out.println("(13) Alquilable: "+(isAlquilable()?"Sí":"No"));
 		System.out.println("(14) Salir ");
 		System.out.println("");
 		System.out.println("");
