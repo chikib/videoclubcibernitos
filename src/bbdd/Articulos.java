@@ -4,6 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import articulos.Articulo;
 import articulos.Categoria;
@@ -54,6 +56,52 @@ public class Articulos {
 			con.cerrarConexion();
 		}
 		return art;
+	}
+	
+	public List buscarArticuloNombre(String nombre){
+		Articulo art = null;
+		List<Articulo> listaPeliculas = new ArrayList<Articulo>();
+		Conexion con = new Conexion();
+		StringBuilder stb = new StringBuilder("SELECT codigo, titulo, codigoBarras,precio,descripcion," +
+				"categoria,soporte,proveedor,alquilado,fechaCompra,precioCompra,novedad,localizacion,alquilable " +
+				"from articulos WHERE upper(titulo) like '%"+nombre.toUpperCase()+"%'");
+		try{
+			ResultSet res = con.consulta(stb.toString());
+			while(res.next()){
+				art = new Articulo();
+				art.setCodigo(res.getInt("codigo"));
+				art.setTitulo(res.getString("titulo"));
+				art.setCodigoBarras(res.getLong("codigoBarras"));
+				art.setPrecioAlquiler(res.getDouble("precio"));
+				art.setDescripcion(res.getString("descripcion"));
+				
+				Categoria cat = new Categoria();
+				cat.setCodigo(res.getInt("categoria"));
+				art.setCategoria(cat);
+				Soporte soporte = new Soporte();
+				soporte.setCodigo(res.getInt("soporte"));
+				art.setSoporte(soporte);
+				Proveedor prov = new Proveedor();
+				prov.setCodigo(res.getInt("proveedor"));
+				art.setProveedor(prov);
+				art.setAlquilado(res.getBoolean("alquilado"));
+				art.setFechaCompra(res.getDate("fechaCompra"));
+				art.setPrecioCompra(res.getDouble("precioCompra"));
+				art.setNovedad(res.getBoolean("novedad"));
+				art.setLocalizacion(res.getString("localizacion"));
+				art.setAlquilable(res.getBoolean("alquilable"));
+				listaPeliculas.add(art);
+			}
+		}catch(SQLException e){
+			System.out.println(e.getMessage());
+		}
+		catch(NumberFormatException e){
+			System.out.println(e.getMessage());
+		}
+		finally{
+			con.cerrarConexion();
+		}
+		return listaPeliculas;
 	}
 	
 	public int setArticuloAlquilado(Articulo articulo){

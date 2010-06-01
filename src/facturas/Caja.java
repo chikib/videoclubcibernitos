@@ -8,8 +8,8 @@ import usuario.Usuario;
 public abstract class Caja {
 	
 	
-	private int codigo=1;
-	private double precioTotal=123;
+	private int codigo;
+	private double precioTotal;
 	private final double IVA=0.16;
 	private Usuario cliente;
 	private Date fecha;
