@@ -21,8 +21,8 @@ public class Menu {
 			System.out.println("(2) Devolver");
 			System.out.println("(3) Gestión de usuarios");
 			System.out.println("(4) Gestión de películas");
-			System.out.println("(5) Consultas");
-			System.out.println("(6) Facturación");
+			System.out.println("(5) Facturación");
+			System.out.println("(6) Gestión de proveedores");
 			System.out.println("(7) Salir");
 			InputStreamVideoclub.pedirCadena();
 			cadena = InputStreamVideoclub.cadena;
@@ -53,8 +53,8 @@ public class Menu {
 				}
 				case 3: mostrarMenuUsuarios();break;
 				case 4: mostrarMenuPeliculas();break;
-				case 5: mostrarMenuConsultas();break;
-				case 6: mostrarMenuFacturacion();break;
+				case 5: mostrarMenuFacturacion();break;
+				case 6: mostrarMenuProveedores();break;
 				case 7: {
 					fin = true; 
 					System.out.println("\n*** Fin de programa ***"); 
@@ -126,7 +126,8 @@ public class Menu {
 			System.out.println("(2) Modificación  de películas");
 			System.out.println("(3) Desactivar película");
 			System.out.println("(4) Activar película");
-			System.out.println("(5) Volver");
+			System.out.println("(5) Consultar datos de una película");
+			System.out.println("(6) Volver");
 			InputStreamVideoclub.pedirCadena();
 			cadena = InputStreamVideoclub.cadena;
 			try{
@@ -158,8 +159,14 @@ public class Menu {
 							throw new VideoException(mensaje);
 						}
 						break;
+					}case 5: {
+						mensaje = menuMostrarPelicula();
+						if(!mensaje.equals("")){
+							throw new VideoException(mensaje);
+						}
+						break;
 					}
-					case 5: fin = true; break;
+					case 6: fin = true; break;
 					default: System.out.println("Elija una opción válida");
 				}
 			}catch(NumberFormatException e){
@@ -184,6 +191,44 @@ public class Menu {
 		Articulo art = Articulo.identificarPelicula();
 		art.menuMostrarCampos();
 		return art.menuModificarPelicula();
+	}
+	
+	public String menuMostrarPelicula(){
+		String mensaje = "";
+		List<Articulo> listaPeliculas = Articulo.identificarPeliculaNombre();
+		Articulo art;
+		for(int i=0;i!=listaPeliculas.size();i++){
+			art = listaPeliculas.get(i);
+			System.out.println("* ("+i+") "+art.getTitulo());
+		}
+		if(listaPeliculas.size()>0){
+			boolean error = false;
+			int opc = 0;
+			do{
+				InputStreamVideoclub.pedirCadena("Introduce la opción que deseas consultar (Sólo el número): ");
+				String opcion = InputStreamVideoclub.cadena;
+				try{
+					opc = Integer.parseInt(opcion);
+					if(opc>listaPeliculas.size() && opc>=0){
+						throw new VideoException("La opción debe ser mayor o igual que cero y menor de "+listaPeliculas.size());
+					}else{
+						error = false;
+					}
+				}catch(NumberFormatException e){
+					error = true;
+					System.out.println("La opción debe ser numérica");
+				}catch(VideoException e){
+					System.out.println(e.getMessage());
+					error = true;
+				}
+			}while(error);
+			art = listaPeliculas.get(opc);
+			art.menuMostrarCampos();
+		}else{
+			mensaje = "No se han encontrado películas con los criterios de búsqueda indicados";
+		}
+		
+		return mensaje;
 	}
 	
 	public String menuEstadoPelicula(boolean estado){
