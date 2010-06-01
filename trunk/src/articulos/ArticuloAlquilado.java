@@ -122,7 +122,6 @@ public class ArticuloAlquilado {
 	}
 	
 	public static List<String> alquilar(int cantidad){
-		String mensaje = "";
 		List<String> listaMensajes = new ArrayList<String>();
 		//Identifico al usuario
 		Usuario usuario = Usuario.identificarUsuario();
@@ -239,6 +238,7 @@ public class ArticuloAlquilado {
 								Date fechaAlquiler = articuloDev.fechaAlquiler;
 								int tiempoAlquiler = articuloDev.tiempo;
 								int recargo = 0;
+								//Calculo el recargo a aplicar
 								double precio = articuloDev.getPrecio();
 								GregorianCalendar gc = new GregorianCalendar();
 								gc.setTime(fechaAlquiler);

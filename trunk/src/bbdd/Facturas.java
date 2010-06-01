@@ -11,9 +11,9 @@ import facturas.*;
 import usuario.*;
 
 public class Facturas {
-	Conexion con = new Conexion();
 	
 	public int insertarFactura(Factura fac){
+		Conexion con = new Conexion();
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		int res = con.insertarUpdate("INSERT INTO facturas(codigo, precioTotal, fecha, cliente)" +
 				"VALUES ("+fac.getCodigo()+","+fac.getPrecioTotal()+",'"+df.format(fac.getFecha())+"',"+fac.getCliente().getCodigo()+")");
@@ -25,6 +25,7 @@ public class Facturas {
 	
 	public Factura buscarFacturaDatos(int codigo){
 		Factura fc = null;
+		Conexion con = new Conexion();
 		ResultSet res = con.consulta("SELECT codigo, precioTotal, fecha, cliente " +
 				"FROM facturas WHERE codigo = " + codigo);
 
@@ -57,7 +58,7 @@ public class Facturas {
 		String sql="SELECT codigo, precioTotal, fecha, cliente " +
 		"FROM facturas WHERE fecha > '" +cad+"' && fecha < '"+cad2+"' " +
 		" ORDER BY fecha";
-		
+		Conexion con = new Conexion();
 		ResultSet res = con.consulta(sql);
 		
 		try{

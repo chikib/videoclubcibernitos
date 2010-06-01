@@ -11,9 +11,9 @@ import usuario.Usuario;
 import facturas.*;
 
 public class Albaranes {
-	Conexion con = new Conexion();
 	
 	public int insertarAlbaran(Albaran al){
+		Conexion con = new Conexion();
 		String cancelado = "0";
 		if(al.isCancelado()){
 			cancelado = "1";
@@ -28,7 +28,7 @@ public class Albaranes {
 	
 	public Albaran buscarAlbaranDatos(int codigo){
 		Albaran al = null;
-					
+		Conexion con = new Conexion();
 		ResultSet res = con.consulta("SELECT codigo, precioTotal, fecha, cliente, cancelado " +
 				"FROM albaranes WHERE codigo = " + codigo);
 
@@ -61,7 +61,7 @@ public class Albaranes {
 	public List buscarAlbaranMes(String cad,String cad2){
 		Albaran al = null;
 		List<Albaran> listaAlbaran = new ArrayList();
-		
+		Conexion con = new Conexion();
 		String sql="SELECT codigo, precioTotal, fecha, cliente, cancelado " +
 				"FROM albaranes WHERE fecha > '" +cad+"' && fecha < '"+cad2+"' " +
 				" ORDER BY fecha";
@@ -92,6 +92,7 @@ public class Albaranes {
 	}
 	
 	public int cancelacionAlbaran(int cod){
+		Conexion con = new Conexion();
 		int res = con.insertarUpdate("UPDATE albaranes SET cancelado = 1 WHERE " +
 				"codigo = "+cod);
 		con.cerrarConexion();
