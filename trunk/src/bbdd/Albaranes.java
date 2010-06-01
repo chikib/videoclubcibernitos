@@ -100,4 +100,20 @@ public class Albaranes {
 		con.cerrarConexion();
 		return res;
 	}
+	
+	public int consultaUltimoCodigo(){
+		Conexion con = new Conexion();
+		int i=0;
+		ResultSet rs = con.consulta("select max(codigo) codigo from albaranes");
+		try{
+			if(rs.next()){
+				i= rs.getInt("codigo");
+			}
+		}catch(SQLException e){
+			System.out.println(e.getMessage());
+		}finally{
+			con.cerrarConexion();
+		}
+		return i;
+	}
 }

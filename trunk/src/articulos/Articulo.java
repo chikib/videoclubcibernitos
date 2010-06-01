@@ -2,7 +2,10 @@ package articulos;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import bbdd.Articulos;
 import varios.InputStreamVideoclub;
 import varios.Menu;
@@ -132,53 +135,18 @@ public class Articulo {
 		return alquilable;
 	}
 	
-	/*public static int buscaArticuloDisponible(int codigo){
-		int i = 0;
-		for (Articulo articulo : listaPeliculas)
-		{
-			if (articulo.getCodigoBarras() == codigo && articulo.isAlquilado() == false)
-			{
-				//Videoclub.listaUsuarios.indexOf(us);
-				return i; // devuelve la posicion en que se encuentra el cliente dentro de la lista
-			}
-			i++;
-		}
-	
-		return -1;
-	}*/
-	
 	public static Articulo buscaArticulo(int codigo){
 		Articulos artbbdd = new Articulos();
 		Articulo art = artbbdd.buscarArticuloCodigoBarras(codigo);		
 		return art;
 	}
 	
-	/*public static int identificarPeliculaDisponible(){
-		InputStreamVideoclub.pedirCadena("Introduzca el código de barras de la película o 0 para volver al menú anterior: ");
-		String cadena = InputStreamVideoclub.cadena;
-		int codigo;
-		try{
-			codigo = Integer.parseInt(cadena);
-			switch(codigo){
-				case 0: new Menu().mostrarMenuPrincipal();break;
-				default: {
-						int pos = Articulo.buscaArticuloDisponible(codigo);
-						if(pos>=0){
-							return pos;
-						}else{
-							throw new VideoException("*** El número de película indicada no existe ***\n");
-						}
-				}
-			}
-		}
-		catch(NumberFormatException e){
-			System.out.println("El dato introducido no es válido");
-			identificarPeliculaDisponible();
-		}catch(VideoException e){
-			System.out.println(e.getMessage());
-		}
-		return -1;
-	}*/
+	public static List buscaArticuloNombre(String nombre){
+		Articulos artbbdd = new Articulos();
+		List<Articulo> listaPeliculas = new ArrayList<Articulo>();
+		listaPeliculas = artbbdd.buscarArticuloNombre(nombre);		
+		return listaPeliculas;
+	}
 	
 	public static Articulo identificarPelicula(){
 		InputStreamVideoclub.pedirCadena("Introduzca el código de barras de la película o 0 para volver al menú anterior: ");
@@ -206,6 +174,21 @@ public class Articulo {
 			System.out.println(e.getMessage());
 		}
 		return art;
+	}
+	
+	public static List<Articulo> identificarPeliculaNombre(){
+		InputStreamVideoclub.pedirCadena("Introduzca el nombre de la película: ");
+		String cadena = InputStreamVideoclub.cadena;
+		List<Articulo> listaPeliculas = new ArrayList<Articulo>();
+		Articulo art = null;
+		try{	
+			listaPeliculas = buscaArticuloNombre(cadena);
+		}
+		catch(NumberFormatException e){
+			System.out.println("El dato introducido no es válido");
+			identificarPelicula();
+		}
+		return listaPeliculas;
 	}
 	
 	public String rellenaPelicula()
@@ -302,14 +285,14 @@ public class Articulo {
 			sAlquilable = "1";
 		}
 		
-		System.out.println("La lista de campos que se pueden modificar son: ");
+		System.out.println("La lista de campos son: ");
 		System.out.println("(1) Título: "+getTitulo());
 		System.out.println("(2) Descripción: "+getDescripcion());
-		System.out.println("(3) Categoría: "+getCategoria().getCodigo()+", "+getCategoria().getTematica());
+		System.out.println("(3) Categoría: "+getCategoria().getCodigo());
 		new Categoria().imprimirCategorias();
-		System.out.println("(4) Soporte: "+getSoporte().getCodigo()+", "+getSoporte().getTipo());
+		System.out.println("(4) Soporte: "+getSoporte().getCodigo());
 		new Soporte().imprimirSoportes();
-		System.out.println("(5) Proveedor: "+getProveedor().getCodigo()+", "+getProveedor().getNombre());
+		System.out.println("(5) Proveedor: "+getProveedor().getCodigo());
 		new Proveedor().imprimirProveedores();
 		System.out.println("(6) Precio de alquiler: "+getPrecioAlquiler());
 		System.out.println("(7) Alquilado: "+sAlquilado);
@@ -320,6 +303,8 @@ public class Articulo {
 		System.out.println("(12) Código de barras: "+getCodigoBarras());
 		System.out.println("(13) Alquilable: "+sAlquilable);
 		System.out.println("(14) Salir ");
+		System.out.println("");
+		System.out.println("");
 	}
 	
 	public String menuModificarPelicula(){

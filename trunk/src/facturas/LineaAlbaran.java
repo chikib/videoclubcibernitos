@@ -25,9 +25,7 @@ public class LineaAlbaran extends Linea {
 		LineasAlbaran lf = new LineasAlbaran();
 		int res = lf.insertar(this);
 		if(res==0){
-			mensaje = "No se ha podido insertar el artículo";
-		}else{
-			System.out.println("\n******** Artículo insertado *********\n");
+			mensaje = "No se ha podido insertar la línea de la factura";
 		}
 		return mensaje;
 	}

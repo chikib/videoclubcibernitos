@@ -11,9 +11,13 @@ import facturas.Factura;
 import facturas.LineaAlbaran;
 import facturas.LineaFactura;
 
+import bbdd.Albaranes;
 import bbdd.Articulos;
 import bbdd.ArticulosAlquilados;
 import bbdd.Categorias;
+import bbdd.Facturas;
+import bbdd.LineasAlbaran;
+import bbdd.LineasFactura;
 import usuario.Usuario;
 
 public class ArticuloAlquilado {
@@ -123,7 +127,11 @@ public class ArticuloAlquilado {
 		//Identifico al usuario
 		Usuario usuario = Usuario.identificarUsuario();
 		//Creo el albarán
-		Albaran albaran = new Albaran(0,0,new Date(),usuario,false);
+		Albaran albaran = new Albaran();
+		albaran.setFecha(new Date());
+		albaran.setCliente(usuario);
+		albaran.setCancelado(false);
+		List<LineaAlbaran> lineas = new ArrayList<LineaAlbaran>();
 		//Identifico la película
 		if(usuario!=null){
 			for(int i=0;i!=cantidad;i++){
@@ -152,16 +160,15 @@ public class ArticuloAlquilado {
 						articulo.setAlquilado(true);
 						if(artBbdd.setArticuloAlquilado(articulo)==1){
 							if(artAlqBbdd.insertar(artAlq)==1){
+								int codigoArtAlq = new ArticulosAlquilados().consultaUltimoCodigo();
+								artAlq.setCodigo(codigoArtAlq);
 								albaran.setPrecioTotal(albaran.getPrecioTotal()+artAlq.getPrecio());
 								//crear la línea de albarán
-								LineaAlbaran linea = new LineaAlbaran(0, artAlq.getPrecio(), artAlq, albaran);
-								linea.guardar();
-								mensaje = linea.guardar();
-								if(mensaje.equals("")){
-									System.out.println("*** Artículo alquilado ***\n");
-								}else{
-									listaMensajes.add(mensaje);
-								}
+								LineaAlbaran linea = new LineaAlbaran();
+								linea.setArtAlq(artAlq);
+								linea.setPrecio(artAlq.getPrecio());
+								lineas.add(linea);
+								System.out.println("*** Artículo alquilado ***\n");
 							}else{
 								//Si la inserción en articulos alquilados da error doy marcha atrás en que el artículo está alquilado
 								articulo.setAlquilado(false);
@@ -179,6 +186,17 @@ public class ArticuloAlquilado {
 				}
 			}
 			//Guardar en bbdd el albarán
+			int res = new Albaranes().insertarAlbaran(albaran);
+			if(res==1){
+				albaran.setCodigo(new Albaranes().consultaUltimoCodigo());
+				//Guardo las líneas
+				for(LineaAlbaran linea:lineas){
+					linea.setAlbaran(albaran);
+					new LineasAlbaran().insertar(linea);
+				}
+			}else{
+				listaMensajes.add("Ha ocurrido un error al crear la factura");
+			}
 		}else{
 			listaMensajes.add("Ha habido un error al identificar el usuario");
 		}
@@ -191,7 +209,10 @@ public class ArticuloAlquilado {
 		Usuario usuario = Usuario.identificarUsuario();
 		List<String> listaMensajes = new ArrayList<String>();
 		if(usuario!=null){
-			Factura factura = new Factura(0,0,new Date(),usuario);
+			Factura factura = new Factura();
+			factura.setFecha(new Date());
+			factura.setCliente(usuario);
+			List<LineaFactura> lineas = new ArrayList<LineaFactura>();
 			//Devuelvo cada artículo
 			for(int i=0;i!=cantidad;i++){
 				//Identifico la película
@@ -224,8 +245,11 @@ public class ArticuloAlquilado {
 								}
 								factura.setPrecioTotal(factura.getPrecioTotal()+precio);
 								//Creo la línea de la factura para este artículo
-								LineaFactura linea = new LineaFactura(0, precio, articuloDev, factura, recargo);
-								mensaje = linea.guardar();
+								LineaFactura linea = new LineaFactura();
+								linea.setPrecio(precio);
+								linea.setArtAlq(articuloDev);
+								linea.setRecargo(recargo);
+								lineas.add(linea);
 								if(mensaje.equals("")){
 									System.out.println("*** Artículo devuelto ***");
 								}else{
@@ -248,6 +272,18 @@ public class ArticuloAlquilado {
 				}
 			}
 			//Guardar en bbdd la factura
+			int res = new Facturas().insertarFactura(factura);
+			if(res==1){
+				factura.setCodigo(new Facturas().consultaUltimoCodigo());
+				
+				//Guardo las líneas
+				for(LineaFactura linea:lineas){
+					linea.setFactura(factura);
+					new LineasFactura().insertar(linea);
+				}
+			}else{
+				listaMensajes.add("Ha ocurrido un error al crear la factura");
+			}
 		}else{
 			listaMensajes.add("El usuario no ha sido encontrado");
 		}
