@@ -153,7 +153,7 @@ public class Usuario {
 		if(res==0){
 			mensaje = "No se ha podido insertar el artículo";
 		}else{
-			System.out.println("\n******** Artículo insertado *********\n");
+			System.out.println("\n******** Usuarios insertado *********\n");
 		}
 		return mensaje;
 	}
