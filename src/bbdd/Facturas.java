@@ -50,17 +50,15 @@ public class Facturas {
 		return fc;
 	}
 	
-	public List buscarFacturaFechas(int mes,int año,int rango){
+	public List buscarFacturaFechas(String cad, String cad2){
 		Factura fc = null;
 		List<Factura> listaFactura = new ArrayList();
 		
-		GregorianCalendar aux_gc1=new GregorianCalendar(año,mes-1,1);
-		//Esto lo utilizamos para que no me cambie el valor inicial de gc1
-		GregorianCalendar gc1=aux_gc1;
-		gc1.add(Calendar.MONTH,rango);
+		String sql="SELECT codigo, precioTotal, fecha, cliente " +
+		"FROM facturas WHERE fecha > '" +cad+"' && fecha < '"+cad2+"' " +
+		" ORDER BY fecha";
 		
-		ResultSet res = con.consulta("SELECT codigo, precioTotal, fecha, cliente " +
-				"FROM facturas WHERE fecha>="+gc1+" && fecha<="+gc1);
+		ResultSet res = con.consulta(sql);
 		
 		try{
 			while(res.next()){

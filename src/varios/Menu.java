@@ -441,21 +441,16 @@ public class Menu {
 	public String menuConsultarFacturaFechas(){
 		String mensaje="";
 		Factura fac = new Factura();
-		//Solicito mes, año y la diferencia de meses a buscar
-		InputStreamVideoclub.pedirCadena("Introduzca el mes de las facturas: ");
+		//Solicito las 2 fechas
+		InputStreamVideoclub.pedirCadena("Introduzca la 1 fecha con este formato (yyyy-MM-dd): ");
 		String cad = InputStreamVideoclub.cadena;
-		int mes=Integer.parseInt(cad);
 		
-		InputStreamVideoclub.pedirCadena("Introduzca el año de las facturas: ");
+		
+		InputStreamVideoclub.pedirCadena("Introduzca la 2 fecha con este formato (yyyy-MM-dd): ");
 		String cad2 = InputStreamVideoclub.cadena;
-		int ano=Integer.parseInt(cad2);
-		
-		InputStreamVideoclub.pedirCadena("Introduzca el rango de meses de las facturas: ");
-		String cad3 = InputStreamVideoclub.cadena;
-		int rango=Integer.parseInt(cad3);
 		
 		List<Factura> resBusqueda = new ArrayList();
-		resBusqueda=fac.buscarFacturaFechas(mes,ano,rango);
+		resBusqueda=fac.buscarFacturaFechas(cad,cad2);
 		
 		mensaje=menuConsultarFactura(resBusqueda);
 		return mensaje;
@@ -496,7 +491,7 @@ public class Menu {
 				break;
 				
 				case 3: 
-					InputStreamVideoclub.pedirCadena("Introduzca el codigo del albaran a borrar");
+					InputStreamVideoclub.pedirCadena("Introduzca el codigo del albaran a cancelar: ");
 					String cad = InputStreamVideoclub.cadena;
 					int cod=Integer.parseInt(cad);
 					al.cancelarAlbaran(cod);break;
@@ -515,19 +510,6 @@ public class Menu {
 	}
 
 	//Este menu lo vamos a utilizar en la consultas de facturas
-	public String menuConsultarAlbaran(List<Albaran> resBusqueda){
-		String mensaje="";
-		if(resBusqueda!=null && resBusqueda.size()>0){
-			for(Albaran alb : resBusqueda){
-				System.out.println(alb.alPantalla());
-				System.out.println("-----------------------------------------------\n");
-			}
-		}else{
-			mensaje="Factura no encontrada";
-		}
-		return mensaje;
-	}
-	
 	public String menuConsultarAlbaranCodigo(){
 		String mensaje="";
 		//Solicito el codigo de la factura
@@ -541,25 +523,36 @@ public class Menu {
 		return mensaje;
 		
 	}
+	
+	public String menuConsultarAlbaran(List<Albaran> resBusqueda){
+		String mensaje="";
+		if(resBusqueda!=null && resBusqueda.size()>0){
+			for(Albaran alb : resBusqueda){
+				System.out.println(alb.alPantalla());
+				System.out.println("-----------------------------------------------\n");
+			}
+		}else{
+			mensaje="Albaran no encontrado";
+		}
+		return mensaje;
+	}
+	
+	
 
 	public String menuConsultarAlbaranFechas(){
 		String mensaje="";
 		Albaran al = new Albaran();
-		//Solicito mes, año y la diferencia de meses a buscar
-		InputStreamVideoclub.pedirCadena("Introduzca el mes de los albaranes: ");
+		//Solicito las dos fechas
+		InputStreamVideoclub.pedirCadena("Introduzca la 1 fecha con este formato (yyyy-MM-dd): ");
 		String cad = InputStreamVideoclub.cadena;
-		int mes=Integer.parseInt(cad);
 		
-		InputStreamVideoclub.pedirCadena("Introduzca el año de los albaranes: ");
+		
+		InputStreamVideoclub.pedirCadena("Introduzca la 2 fecha con este formato (yyyy-MM-dd): ");
 		String cad2 = InputStreamVideoclub.cadena;
-		int ano=Integer.parseInt(cad2);
 		
-		InputStreamVideoclub.pedirCadena("Introduzca el rango de meses de los albaranes: ");
-		String cad3 = InputStreamVideoclub.cadena;
-		int rango=Integer.parseInt(cad3);
 		
 		List<Albaran> resBusqueda = new ArrayList();
-		resBusqueda=al.buscarAlbaranFechas(mes,ano,rango);
+		resBusqueda=al.buscarAlbaranFechas(cad,cad2);
 		
 		mensaje=menuConsultarAlbaran(resBusqueda);
 		return mensaje;

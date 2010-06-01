@@ -42,10 +42,10 @@ public class Albaran extends Caja {
 	public String  alPantalla ()
 	{		
 		Usuario usu = Usuario.buscaUscod(getCliente().getCodigo());
-		return ("Código:         " + getCodigo() + "\n" +
-		"Precio total:    " + getPrecioTotal() + "\n" +
-		"Fecha:      " + getFecha() + "\n" +
-		"Cliente:     " + usu.getNombre() + " " + usu.getApellidos()+ "\n" +
+		return ("Código:     " + getCodigo() + " " +
+		"Precio total:    " + getPrecioTotal() + " " +
+		"Fecha:      " + getFecha() + " " +
+		"Cliente:     " + usu.getNombre() + " " + usu.getApellidos()+ " " +
 		"Cancelado:   " + isCancelado()+ "\n"); 
 				
 	}
@@ -54,42 +54,11 @@ public class Albaran extends Caja {
 		return new Albaranes().buscarAlbaranDatos(codAl);
 	}
 	
-	public List buscarAlbaranFechas(int mes,int ano,int rango){
+	public List buscarAlbaranFechas(String cad, String cad2){
 		List<Albaran> listaAlbaran = new ArrayList();
-		new Albaranes().buscarAlbaranFechas(mes,ano,rango);
+		listaAlbaran= new Albaranes().buscarAlbaranMes(cad,cad2);
 		return listaAlbaran;
 	}
-
-	//Consulta los albaranes en un mes y año concreto
-	public List consultar(int mes){
-		List miLista = new ArrayList();
-		/*for (Albaran o : listaAlbaranes){
-			if (o.consultaMes()==mes){
-					miLista.add(o);
-				}
-		}*/
-		return miLista;
-	}
-
-	
-	//Consulta los albaranes entre dos fechas
-	/*public List consultaFechas(String fecha1, String fecha2){
-		miAlbaran.buscarAlbaranFechas(fecha1,fecha2);
-		
-		
-		
-		for (Albaran o : listaAlbaranes){
-			long ffactura=o.getFecha().getTime();
-			if (ffactura>=f1 && ffactura<=f2)
-			{
-				miLista.add(o);
-			}
-		}
-		return miLista;
-	
-		
-		return new ArrayList();
-	}*/
 	
 	public String cancelarAlbaran(int cod)
 	{
