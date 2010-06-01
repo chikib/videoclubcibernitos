@@ -32,6 +32,7 @@ public class Albaranes {
 		ResultSet res = con.consulta("SELECT codigo, precioTotal, fecha, cliente, cancelado " +
 				"FROM albaranes WHERE codigo = " + codigo);
 
+			
 		try{
 			if(res.next()){
 				al = new Albaran();
@@ -57,30 +58,27 @@ public class Albaranes {
 		return al;
 	}
 	
-	public List buscarAlbaranFechas(int mes,int año,int rango){
-		Albaran fc = null;
+	public List buscarAlbaranMes(String cad,String cad2){
+		Albaran al = null;
 		List<Albaran> listaAlbaran = new ArrayList();
 		
-		GregorianCalendar aux_gc1=new GregorianCalendar(año,mes-1,1);
-		//Esto lo utilizamos para que no me cambie el valor inicial de gc1
-		GregorianCalendar gc1=aux_gc1;
-		gc1.add(Calendar.MONTH,rango);
-		
-		ResultSet res = con.consulta("SELECT codigo, precioTotal, fecha, cliente, cancelado " +
-				"FROM albaran WHERE fecha>="+gc1+" && fecha<="+gc1);
+		String sql="SELECT codigo, precioTotal, fecha, cliente, cancelado " +
+				"FROM albaranes WHERE fecha > '" +cad+"' && fecha < '"+cad2+"' " +
+				" ORDER BY fecha";
+		ResultSet res = con.consulta(sql);
 		
 		try{
 			while(res.next()){
-				fc = new Albaran();
-				fc.setCodigo(res.getInt("codigo"));
-				fc.setPrecioTotal(res.getDouble("precioTotal"));
-				fc.setFecha(res.getDate("fecha"));
+				al = new Albaran();
+				al.setCodigo(res.getInt("codigo"));
+				al.setPrecioTotal(res.getDouble("precioTotal"));
+				al.setFecha(res.getDate("fecha"));
 
 				Usuario us = new Usuario();
 				us.setCodigo(res.getInt("cliente"));
-				fc.setCliente(us);
-				fc.setCancelado(res.getBoolean("cancelado"));
-				listaAlbaran.add(fc);
+				al.setCliente(us);
+				al.setCancelado(res.getBoolean("cancelado"));
+				listaAlbaran.add(al);
 			}
 		}
 		catch(SQLException e){
@@ -93,9 +91,8 @@ public class Albaranes {
 		return listaAlbaran;
 	}
 	
-	
 	public int cancelacionAlbaran(int cod){
-		int res = con.insertarUpdate("UPDATE albaranes SET cancelado = '1' WHERE " +
+		int res = con.insertarUpdate("UPDATE albaranes SET cancelado = 1 WHERE " +
 				"codigo = "+cod);
 		con.cerrarConexion();
 		return res;

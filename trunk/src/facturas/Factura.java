@@ -36,27 +36,21 @@ public class Factura extends Caja{
 	
 	public String  fcPantalla ()
 	{		
-		String cadena="";
 		Usuario usu = Usuario.buscaUscod(getCliente().getCodigo());
-		if (usu.getNombre()!=null && usu.getApellidos()!=null){
-			cadena = ("Código         : " + getCodigo() + "\n" +
-					"Precio total    : " + getPrecioTotal() + "\n" +
-					"Fecha        : " + getFecha() + "\n" +
+		return 	("Código    : " + getCodigo() + " " +
+					"Precio total    : " + getPrecioTotal() + " " +
+					"Fecha        : " + getFecha() + " " +
 					"Cliente      : " + usu.getNombre() + " " + usu.getApellidos())+ "\n";
-		}
-		else{
-			cadena = "El usuario no existe";
-		}
-		return cadena;
+		
 	}
 	
 	public Factura buscarFactura(int codFa){
 		return new Facturas().buscarFacturaDatos(codFa);
 	}
 	
-	public List buscarFacturaFechas(int mes,int ano,int rango){
+	public List buscarFacturaFechas(String cad, String cad2){
 		List<Factura> listaFactura = new ArrayList();
-		new Facturas().buscarFacturaFechas(mes,ano,rango);
+		listaFactura=new Facturas().buscarFacturaFechas(cad,cad2);
 		return listaFactura;
 	}
 

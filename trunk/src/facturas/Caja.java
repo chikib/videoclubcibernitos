@@ -63,36 +63,4 @@ public abstract class Caja {
 	public double getIVA() {
 		return IVA;
 	}
-	
-	//Consulta en un mes concreto.
-	//abstract public List consultar(int mes);
-	
-	//Consulta entre dos fechas.
-	//abstract public List consultaFechas(String fecha1, String fecha2);
-	
-	//Consultar mes 
-	public int consultaMes(){
-		GregorianCalendar fecha1=new GregorianCalendar();
-		fecha1.setTime(getFecha());
-		int d1=fecha1.get(Calendar.MONTH)+1;
-		return d1;
-	}
-	
-	//Este metodo me convierte las 2 fechas introducidas por teclados que son de 
-	//tipo String a un long, para poder comparar con cada una de la fecha de las facturas
-	//y albaranes
-	
-	public long convertirFecha(String fecha){
-		DateFormat dfm = new SimpleDateFormat("dd/MM/yyyy");
-		long lAhora=0;
-		
-		try {
-			Date d = dfm.parse(fecha);
-			lAhora = d.getTime();
-		}
-		catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return lAhora;
-	}
 }
