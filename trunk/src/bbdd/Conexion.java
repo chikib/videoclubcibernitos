@@ -26,13 +26,13 @@ public class Conexion {
 			this.setCon(DriverManager.getConnection(
 			"jdbc:mysql://clapinsa.com/clama23_video_grupo01","grupo01","123456"));
 		}catch(ClassNotFoundException e){
-			e.getMessage();
+			System.out.println(e.getMessage());
 		}catch(IllegalAccessException e){
-			e.getMessage();
+			System.out.println(e.getMessage());
 		}catch(InstantiationException e){
-			e.getMessage();
+			System.out.println(e.getMessage());
 		}catch(SQLException e){
-			e.getMessage();
+			System.out.println(e.getMessage());
 		}
 	}
 	
@@ -40,10 +40,11 @@ public class Conexion {
 		ResultSet resultados = null;
 		try{
 			Statement st=con.createStatement();
-			resultados=st.executeQuery(consulta);			
+			resultados=st.executeQuery(consulta);	
 		}
 		catch (SQLException e){
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 		return resultados;
 	}
